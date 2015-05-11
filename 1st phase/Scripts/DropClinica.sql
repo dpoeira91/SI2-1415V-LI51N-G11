@@ -24,11 +24,8 @@ Drop Table Relatorio
 if OBJECT_ID('Fatura') is not null 
 Drop Table Fatura
 
-if OBJECT_ID('MedicamentoPacientePosologia') is not null 
-Drop Table MedicamentoPacientePosologia
-
-if OBJECT_ID('Posologia') is not null 
-Drop Table Posologia
+if OBJECT_ID('MedicamentoPaciente') is not null 
+Drop Table MedicamentoPaciente
 
 if OBJECT_ID('Medicamento') is not null 
 Drop Table Medicamento

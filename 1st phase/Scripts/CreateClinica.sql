@@ -53,7 +53,7 @@ create table MoradaPessoa
 */
 create table Telefone
 (
-	Pessoa int,
+	Pessoa int references Pessoa(Bi),
 	Ordem int,
 	Numero nvarchar(15) NOT NULL,
 	Tipo int NOT NULL,
@@ -71,7 +71,7 @@ create table Paciente
 	SistemaSaude nvarchar(200) NOT NULL,
 	Bonus int NOT NULL,
 	PRIMARY KEY(Pessoa),
-	CHECK(Bonus > 0 AND Bonus <= 1000)
+	CHECK(Bonus >= 0 AND Bonus <= 1000)
 )
 
 /*
@@ -137,25 +137,15 @@ create table Medicamento
 )
 
 /*
- * Tabela que representa a entidade Posologia
-*/
-create table Posologia
-(
-	IdPosologia int,
-	Descricao nvarchar(20) NOT NULL UNIQUE CHECK(Descricao = '3em3h' OR Descricao ='8em8h' OR Descricao='12em12h' OR Descricao='manha' OR
-	Descricao='aoAlmoço' OR Descricao='aoJantar' OR Descricao='aoDeitar' OR Descricao='emJejum'), -- GARANTE 5.
-	PRIMARY KEY (IdPosologia)
-)
-
-/*
  * Tabela que representa a entidade MedicamentoPaciente
 */
-create table MedicamentoPacientePosologia
+create table MedicamentoPaciente
 (
 	IdMedicamento int references Medicamento(IdMedicamento) NOT NULL,
 	IdPaciente int references Paciente(Pessoa) NOT NULL,
-	IdPosologia int references Posologia(IdPosologia) NOT NULL,
-	PRIMARY KEY (IdMedicamento, IdPaciente, IdPosologia)
+	Posologia nvarchar(20) NOT NULL CHECK(Posologia = '3em3h' OR Posologia ='8em8h' OR Posologia='12em12h' OR Posologia='manha' OR
+	Posologia='aoAlmoço' OR Posologia='aoJantar' OR Posologia='aoDeitar' OR Posologia='emJejum'), -- GARANTE 5.,
+	PRIMARY KEY (IdMedicamento, IdPaciente)
 )
 
 
@@ -171,6 +161,7 @@ create table Fatura
 	Nome nvarchar (1250) NOT NULL,
 	Nif int NOT NULL,
 	Montante decimal(10,2) NOT NULL,
+	Estado nvarchar(10) NOT NULL CHECK(Estado = 'emitida' OR Estado = 'paga'),
 	PRIMARY KEY (IdFatura)
 )
 
