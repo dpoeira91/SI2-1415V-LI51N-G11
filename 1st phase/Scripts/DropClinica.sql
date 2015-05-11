@@ -12,6 +12,9 @@ Drop Table TipoExame
 if OBJECT_ID('RelatorioMedico') is not null 
 Drop Table RelatorioMedico
 
+if OBJECT_ID('ItemFaturaRelatorio') is not null 
+Drop Table ItemFaturaRelatorio
+
 if OBJECT_ID('ItemFatura') is not null 
 Drop Table ItemFatura
 
@@ -21,8 +24,8 @@ Drop Table Relatorio
 if OBJECT_ID('Fatura') is not null 
 Drop Table Fatura
 
-if OBJECT_ID('MedicamentoPaciente') is not null 
-Drop Table MedicamentoPaciente
+if OBJECT_ID('MedicamentoPacientePosologia') is not null 
+Drop Table MedicamentoPacientePosologia
 
 if OBJECT_ID('Posologia') is not null 
 Drop Table Posologia
@@ -33,8 +36,8 @@ Drop Table Medicamento
 if OBJECT_ID('Consulta') is not null 
 Drop Table Consulta
 
-if OBJECT_ID('MotivoConsulta') is not null 
-Drop Table MotivoConsulta
+if OBJECT_ID('MedicoEspecialidade') is not null 
+Drop Table MedicoEspecialidade
 
 if OBJECT_ID('Medico') is not null 
 Drop Table Medico
@@ -48,8 +51,16 @@ Drop Table Paciente
 if OBJECT_ID('Telefone') is not null 
 Drop Table Telefone
 
+if OBJECT_ID('MoradaPessoa') is not null 
+Drop Table MoradaPessoa
+
 if OBJECT_ID('Morada') is not null 
 Drop Table Morada
 
+if OBJECT_ID('TipoContacto') is not null 
+Drop Table TipoContacto
+
 if OBJECT_ID('Pessoa') is not null 
 Drop Table Pessoa
+
+

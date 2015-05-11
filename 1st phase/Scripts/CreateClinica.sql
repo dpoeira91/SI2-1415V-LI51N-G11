@@ -4,18 +4,19 @@ use clinica
 */
 CREATE TABLE Pessoa
 (
-	Bi INT PRIMARY KEY,
+	Bi INT NOT NULL,
 	Nif INT NOT NULL UNIQUE,
 	NumeroSS INT NOT NULL UNIQUE,
 	Nome nvarchar(1000) NOT NULL,
 	UltimoNome nvarchar(250) NOT NULL,
-	DataNascimento date,
+	DataNascimento date NOT NULL,
 	Nacionalidade nvarchar(300),
-	EMail nvarchar(250)
+	EMail nvarchar(250),
+	PRIMARY KEY(Bi)
 )
 
 /*
- * Tabela que representa a entidade TipoContacto
+* Tabela que representa a entidade TipoContacto
 */
 create table TipoContacto
 (
@@ -29,7 +30,6 @@ create table TipoContacto
 */
 create table Morada
 (
-	Pessoa int,
 	Ordem smallint,
 	Rua nvarchar(1000) NOT NULL,
 	Numero nvarchar(9) NOT NULL,
@@ -38,7 +38,14 @@ create table Morada
 	Pais nvarchar(300) NOT NULL,
 	Tipo int NOT NULL,
 	FOREIGN KEY (Tipo) references TipoContacto(Tipo),
-	PRIMARY KEY(Pessoa, Ordem)
+	PRIMARY KEY(Ordem)
+)
+
+create table MoradaPessoa
+(
+	Pessoa int references Pessoa(Bi), 
+	Ordem smallint references Morada(Ordem),
+	PRIMARY KEY (Pessoa, Ordem)
 )
 
 /*
@@ -59,15 +66,13 @@ create table Telefone
 */
 create table Paciente
 (
-	Pessoa int NOT NULL,
-	NumeroBenefeciario int,
+	Pessoa int references Pessoa(Bi) NOT NULL,
+	NumeroBenefeciario int UNIQUE NOT NULL,
 	SistemaSaude nvarchar(200) NOT NULL,
 	Bonus int NOT NULL,
-	FOREIGN KEY (Pessoa) references Pessoa(Bi),
-	PRIMARY KEY(NumeroBenefeciario),
+	PRIMARY KEY(Pessoa),
 	CHECK(Bonus > 0 AND Bonus <= 1000)
 )
-
 
 /*
  * Tabela que representa a entidade Especialidade
@@ -84,20 +89,19 @@ create table Especialidade
 */
 create table Medico
 (
-	Pessoa int NOT NULL,
-	LicencaMedica nvarchar(20),
+	Pessoa int references Pessoa(Bi) NOT NULL,
+	LicencaMedica nvarchar(20) UNIQUE NOT NULL,
 	DataLicenca date NOT NULL,
-	NumeroPacientesDiario int,
-	NumeroListadeEspera int,
-	Especialidade int NOT NULL,
-	FOREIGN KEY (Pessoa) references Pessoa(Bi),
-	PRIMARY KEY(LicencaMedica, Especialidade) 
+	NumeroPacientesDiario int NOT NULL,
+	NumeroListadeEspera int NOT NULL,
+	PRIMARY KEY (Pessoa)
 )
 
-create table MotivoConsulta
+create table MedicoEspecialidade
 (
-	IdMotivo int PRIMARY KEY,
-	Descricao nvarchar(100) NOT NULL UNIQUE
+	IdEspecialidade int references Especialidade(IdEspecialidade) NOT NULL,
+	Pessoa int references Medico(Pessoa) NOT NULL,
+	PRIMARY KEY(Pessoa, IdEspecialidade)
 )
 
 /*
@@ -106,16 +110,17 @@ create table MotivoConsulta
 create table Consulta 
 (
 	IdConsulta int PRIMARY KEY,
-	Motivo int NOT NULL,
+	Motivo nvarchar(30) NOT NULL CHECK(Motivo = 'acompanhamento' OR Motivo = 'inicial' OR Motivo = 'apresentarExames' OR
+	Motivo = 'posOperatorio' OR Motivo = 'medicacao'), -- GARANTE 8.
 	Data date NOT NULL,
-	DataRegisto datetime,
+	DataRegisto datetime NOT NULL,
 	PacienteConsulta int NOT NULL,
 	MedicoConsulta int NOT NULL,
 	EspecialidadeConsulta int NOT NULL,
-	FOREIGN KEY (Motivo) references MotivoConsulta(IdMotivo),
-	FOREIGN KEY (PacienteConsulta) references Paciente(NumeroBenefeciario),
-	FOREIGN KEY (MedicoConsulta) references Medico(LicencaMedica),
-	FOREIGN KEY (EspecialidadeConsulta) references Especialidade(IdEspecialidade)
+	FOREIGN KEY (PacienteConsulta) references Paciente(Pessoa),
+	FOREIGN KEY (MedicoConsulta, EspecialidadeConsulta) references MedicoEspecialidade(Pessoa, IdEspecialidade),-- GARANTE 1.
+	CONSTRAINT medicoNotPaciente CHECK(PacienteConsulta != MedicoConsulta) -- GARANTE 3.
+
 )
 
 
@@ -136,21 +141,21 @@ create table Medicamento
 */
 create table Posologia
 (
-	IdPosologia int PRIMARY KEY,
-	Descricao nvarchar(20) NOT NULL UNIQUE
+	IdPosologia int,
+	Descricao nvarchar(20) NOT NULL UNIQUE CHECK(Descricao = '3em3h' OR Descricao ='8em8h' OR Descricao='12em12h' OR Descricao='manha' OR
+	Descricao='aoAlmoço' OR Descricao='aoJantar' OR Descricao='aoDeitar' OR Descricao='emJejum'), -- GARANTE 5.
+	PRIMARY KEY (IdPosologia)
 )
 
 /*
  * Tabela que representa a entidade MedicamentoPaciente
 */
-create table MedicamentoPaciente
+create table MedicamentoPacientePosologia
 (
-	IdMedicamento int,
-	Paciente int ,
-	Posologia int NOT NULL,
-	FOREIGN KEY (Paciente) references Paciente(NumeroBenefeciario),
-	FOREIGN KEY (Posologia) references Posologia(IdPosologia),
-	PRIMARY KEY (IdMedicamento, Paciente)
+	IdMedicamento int references Medicamento(IdMedicamento) NOT NULL,
+	IdPaciente int references Paciente(Pessoa) NOT NULL,
+	IdPosologia int references Posologia(IdPosologia) NOT NULL,
+	PRIMARY KEY (IdMedicamento, IdPaciente, IdPosologia)
 )
 
 
@@ -159,13 +164,14 @@ create table MedicamentoPaciente
 */
 create table Fatura
 (
-	IdFatura int PRIMARY KEY,
+	IdFatura int NOT NULL,
 	Ano int NOT NULL,
 	Data datetime NOT NULL,
 	Morada nvarchar(2000) NOT NULL,
 	Nome nvarchar (1250) NOT NULL,
 	Nif int NOT NULL,
-	Montante decimal(10,2) NOT NULL
+	Montante decimal(10,2) NOT NULL,
+	PRIMARY KEY (IdFatura)
 )
 
 /*
@@ -183,25 +189,65 @@ create table Relatorio
 */
 create table ItemFatura
 (
-	Numero int,
-	IdFatura int,
+	Numero int NOT NULL,
+	IdFatura int references Fatura(IdFatura),
 	Descricao nvarchar(1000) NOT NULL,
 	Montante decimal(10,2) NOT NULL,
-	Relatorio int,
-	FOREIGN KEY (IdFatura) references Fatura(IdFatura),
-	FOREIGN KEY (Relatorio) references Relatorio(IdRelatorio),
 	PRIMARY KEY (IdFatura, Numero)
+)
+
+create table ItemFaturaRelatorio
+(
+	Numero int NOT NULL,
+	IdFatura int NOT NULL,
+	IdRelatorio int references Relatorio(IdRelatorio) NOT NULL UNIQUE,
+	FOREIGN KEY (IdFatura, Numero) references ItemFatura(IdFatura, Numero),
+	PRIMARY KEY (Numero, IdFatura)
+)
+
+/*
+* Tabela que representa a entidade RelatorioMedico
+*/
+create table RelatorioMedico
+(
+	IdRelatorio int references Relatorio(IdRelatorio),
+	EstadoClinico nvarchar(2000) NOT NULL,
+	Prescricoes nvarchar(2000),
+	PRIMARY KEY (IdRelatorio)
+)
+
+/*
+ * Tabela que representa a entidade TipoExame
+*/
+create table TipoExame
+(
+	IdTipoExame int PRIMARY KEY NOT NULL,
+	Nome nvarchar(500) NOT NULL,
+	Preco decimal(10,2) NOT NULL
 )
 
 /*
  * Tabela que representa a entidade RelatorioMedico
 */
-create table RelatorioMedico
+create table RelatorioExame
 (
-	IdRelatorio int PRIMARY KEY,
-	EstadoClinico nvarchar(2000) NOT NULL,
-	Prescricoes nvarchar(2000),
-	FOREIGN KEY (IdRelatorio) references Relatorio(IdRelatorio)
+	IdRelatorio int references Relatorio(IdRelatorio),
+	IdEquipamento int,
+	Notas nvarchar(2000),
+	Resultado xml/*(examesMedicosXSD)*/ NOT NULL,
+	Tipo int references TipoExame(IdTipoExame) NOT NULL,
+	PRIMARY KEY (IdRelatorio)
+)
+
+/*
+ * Tabela que representa a entidade RelatorioMensalFinanceiroc
+*/
+create table RelatorioMensalFinanceiro
+(
+	Ano int NOT NULL,
+	Mes int NOT NULL,
+	Relatorio xml NOT NULL,
+	PRIMARY KEY (Ano, Mes)
 )
 
 --drop XML SCHEMA COLLECTION examesMedicosXSD 
@@ -243,40 +289,7 @@ create table RelatorioMedico
 </xs:schema>'
 */
 
-/*
- * Tabela que representa a entidade TipoExame
-*/
-create table TipoExame
-(
-	IdTipoExame int PRIMARY KEY,
-	Nome nvarchar(500) NOT NULL,
-	Preco decimal(10,2) NOT NULL
-)
 
-/*
- * Tabela que representa a entidade RelatorioMedico
-*/
-create table RelatorioExame
-(
-	IdRelatorio int PRIMARY KEY,
-	IdEquipamento int,
-	Notas nvarchar(2000),
-	Resultado xml/*(examesMedicosXSD)*/ NOT NULL,
-	Tipo int NOT NULL,
-	FOREIGN KEY (IdRelatorio) references Relatorio(IdRelatorio),
-	FOREIGN KEY (Tipo) references TipoExame(IdTipoExame)
-)
-
-/*
- * Tabela que representa a entidade RelatorioMensalFinanceiroc
-*/
-create table RelatorioMensalFinanceiro
-(
-	Ano int,
-	Mes int,
-	Relatorio xml NOT NULL,
-	PRIMARY KEY (Ano, Mes)
-)
 
 
 
