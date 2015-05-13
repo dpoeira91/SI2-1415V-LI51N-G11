@@ -1,9 +1,9 @@
 use clinica
 
 INSERT INTO Pessoa(Bi, Nif, NumeroSS, Nome, UltimoNome, DataNascimento, Nacionalidade, Email)
-values(1, 111111111, 1111111, 'Ana', 'Sequeira', '1990-01-01', 'Portuguesa', '1111@isel.pt'),
-		(2, 222222222, 2222222, 'Diogo', 'Poeira', '1991-02-02', 'Portuguesa', '2222@isel.pt'),
-		(3, 333333333, 3333333, 'Susana', 'Cardoso', '1990-03-03', 'Portuguesa', '3333@isel.pt');
+values(1, 1, 1111111, 'Ana', 'Sequeira', '1990-01-01', 'Portuguesa', '1111@isel.pt'),
+		(2, 2, 2222222, 'Diogo', 'Poeira', '1991-02-02', 'Portuguesa', '2222@isel.pt'),
+		(3, 3, 3333333, 'Susana', 'Cardoso', '1990-03-03', 'Portuguesa', '3333@isel.pt');
 
 INSERT INTO TipoContacto(Tipo, Descricao)
 values(1, 'Desc1'),
@@ -34,74 +34,101 @@ values(1, 1, 'aaa', 0),
 		(2, 2, 'bbb', 0),
 		(3, 3, 'aaa', 0);
 
-INSERT INTO Especialidade(IdEspecialidade, Nome, Preco)
-values(1, 'Oftm', 50),
-		(2, 'Card', 100),
-		(3, 'US', 12);
+INSERT INTO Especialidade(Nome, Preco)
+values('Oftm', 50),
+		('Card', 100),
+		('US', 12);
 
 INSERT INTO Medico(Pessoa, LicencaMedica, DataLicenca, NumeroPacientesDiario, NumeroListadeEspera)
-values(1, '11', '2015-05-14', 12, 10),
-		(2, '22', '2015-05-12', 5, 1),
-		(3, '33', '2015-05-3', 3, 0);
+values(1, 11, '2015-05-14', 12, 10),
+		(2, 22, '2015-05-12', 5, 1),
+		(3, 33, '2015-05-3', 3, 0);
 
-INSERT INTO MedicoEspecialidade(IdEspecialidade, Pessoa)
-values(1, 1),
-		(1, 2),
-		(1, 3),
-		(2, 3),
-		(3, 1);
+INSERT INTO MedicoEspecialidade(IdEspecialidade, Licenca)
+values(1, 11),
+		(1, 22),
+		(1, 33),
+		(2, 33),
+		(3, 11);
 
-INSERT INTO Consulta(IdConsulta, Motivo, Data, DataRegisto, PacienteConsulta, MedicoConsulta, EspecialidadeConsulta)
-values(1, 'inicial', '2015-02-10', '2015-02-11', 2, 1, 1),
-		(2, 'acompanhamento', '2015-12-05', '2015-12-11', 1, 2, 1),
-		(3, 'inicial', '2015-02-10', '2015-02-11', 3, 1, 3),
-		(4, 'inicial', '2015-02-10', '2015-02-11', 2, 3, 1);
+INSERT INTO MotivoConsulta(Motivo)
+values('inicial'),
+		('acompanhamento'),
+		('apresentarExames'),
+		('posOperatorio'),
+		('medicacao');
 
-INSERT INTO Medicamento(IdMedicamento, PrincipioActivo, NomeComercial, Laboratorio, Dose)
-values(1,'1','1','1',1.0),
-		(2,'2','2','2',2.0),
-		(3,'3','3','3',3.0),
-		(4,'4','4','4',4.0);
+INSERT INTO Consulta(Motivo, Data, PacienteConsulta, MedicoConsulta, EspecialidadeConsulta)
+values('inicial', '2015-02-11', 2, 11, 1),
+		('acompanhamento','2015-12-11', 1, 22, 1),
+		('inicial', '2015-02-11', 3, 11, 3),
+		('inicial', '2015-02-11', 2, 33, 1);
+
+INSERT INTO Medicamento(PrincipioActivo, NomeComercial, Laboratorio, Dose)
+values('1','1','1',1.0),
+		('2','2','2',2.0),
+		('3','3','3',3.0),
+		('4','4','4',4.0);
+
+INSERT INTO Posologia(Posologia)
+values('3em3h'),
+		('8em8h'),
+		('12em12h'),
+		('manha'),
+		('almoco'),
+		('jantar'),
+		('aoDeitar'),
+		('emJejum');
+
 INSERT INTO MedicamentoPaciente(IdMedicamento,IdPaciente, Posologia)
  values(1,1,'3em3h'),
 		(2,2,'3em3h'),
 		(3,3,'3em3h'),
 		(3,1,'3em3h'),
 		(1,2,'3em3h');
-INSERT INTO Fatura(IdFatura,Ano,Data,Morada,Nome,Nif,Montante,Estado)
-values(1,2015,'2015-03-11 11:11','aaa','Diogo',2,0,'emitida'),
-		(2,2015,'2015-03-11 11:12','aaa','Ana',1,0,'emitida'),
-		(3,2015,'2015-03-11 11:13','aaa','Susana',3,0,'emitida'),
-		(9,2015,'2015-03-11 11:13','aaa','Susana',3,0,'emitida'),
-		(6,2015,'2015-03-11 11:13','aaa','Susana',3,0,'emitida'),
-		(7,2015,'2015-03-11 11:13','aaa','Susana',3,0,'emitida'),
-		(8,2015,'2015-03-11 11:13','aaa','Susana',3,0,'emitida'),
-		(4,2015,'2015-03-11 11:14','aaa','Ana',1,0,'emitida'),
-		(5,2015,'2015-03-11 11:15','aaa','Diogo',2,0,'emitida');
-INSERT INTO Relatorio(IdRelatorio,Data,Descricao)
-values(1,'2015-03-11 11:11','aaaa'),
-		(2,'2015-03-11 11:12','aaaa'),
-		(3,'2015-03-11 11:13','aaaa'),
-		(4,'2015-03-11 11:14','aaaa');
+
+INSERT INTO Fatura(Ano,Data,Morada,Nome,Nif,Montante,Estado)
+values(2015,'2015-03-11 11:11','aaa','Diogo',2,0,'emitida'),
+		(2015,'2015-03-11 11:12','aaa','Ana',1,0,'emitida'),
+		(2015,'2015-03-11 11:13','aaa','Susana',3,20,'emitida'),
+		(2015,'2015-03-11 11:13','aaa','Susana',3,30,'emitida'),
+		(2015,'2015-04-11 11:13','aaa','Susana',3,40,'emitida'),
+		(2015,'2015-01-11 11:13','aaa','Susana',3,50,'emitida'),
+		(2015,'2015-08-11 11:13','aaa','Susana',3,60,'emitida'),
+		(2015,'2015-03-12 11:13','aaa','Susana',3,70,'emitida'),
+		(2015,'2015-03-11 11:14','aaa','Ana',1,0,'emitida'),
+		(2015,'2015-03-11 11:15','aaa','Diogo',2,0,'emitida');
+
+INSERT INTO Relatorio(Data,Descricao)
+values('2015-03-11 11:11','aaaa'),
+		('2015-03-11 11:12','aaaa'),
+		('2015-03-11 11:13','aaaa'),
+		('2015-03-11 11:14','aaaa');
+
 INSERT INTO ItemFatura(Numero,IdFatura,Descricao,Montante)
 values(1,1,'1',1),
 		(1,2,'2',2),
 		(1,3,'3',3),
 		(1,4,'4',4);
+
 INSERT INTO ItemFaturaRelatorio(Numero,IdFatura,IdRelatorio)
 values(1,1,1),
 		(1,2,2),
 		(1,3,3),
 		(1,4,4);
+
 INSERT INTO RelatorioMedico(IdRelatorio,EstadoClinico,Prescricoes)
 values(1,'1','1'),
 		(2,'2',NULL);
-INSERT INTO TipoExame(IdTipoExame,Nome,Preco)
-values(1,'1',1.0),
-		(2,'2',2.0);
+
+INSERT INTO TipoExame(Nome,Preco)
+values('1',1.0),
+		('2',2.0);
+
 INSERT INTO RelatorioExame(IdRelatorio,IdEquipamento,Notas,Resultado,Tipo)
 values(2,NULL,'aaaa','<ok></ok>',1),
 		(3,NULL,'bbbb','<ok></ok>',2);
+
 INSERT INTO RelatorioMensalFinanceiro(Ano, Mes,Relatorio)
 values(2015,3,'<ok></ok>'),
 		(2015,4,'<ok></ok>');

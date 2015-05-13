@@ -27,11 +27,17 @@ Drop Table Fatura
 if OBJECT_ID('MedicamentoPaciente') is not null 
 Drop Table MedicamentoPaciente
 
+if OBJECT_ID('Posologia') is not null 
+Drop Table Posologia
+
 if OBJECT_ID('Medicamento') is not null 
 Drop Table Medicamento
 
 if OBJECT_ID('Consulta') is not null 
 Drop Table Consulta
+
+if OBJECT_ID('MotivoConsulta') is not null
+Drop Table MotivoConsulta
 
 if OBJECT_ID('MedicoEspecialidade') is not null 
 Drop Table MedicoEspecialidade

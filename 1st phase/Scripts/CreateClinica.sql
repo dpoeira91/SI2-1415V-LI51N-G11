@@ -72,7 +72,7 @@ create table Paciente
 */
 create table Especialidade
 (
-	IdEspecialidade int PRIMARY KEY,
+	IdEspecialidade int PRIMARY KEY IDENTITY(1,1),
 	Nome nvarchar(300) NOT NULL UNIQUE,
 	Preco decimal(10,2) NOT NULL
 )
@@ -83,7 +83,7 @@ create table Especialidade
 create table Medico
 (
 	Pessoa int references Pessoa(Bi) UNIQUE NOT NULL,
-	LicencaMedica nvarchar(20) NOT NULL,
+	LicencaMedica int NOT NULL,
 	DataLicenca date NOT NULL,
 	NumeroPacientesDiario int NOT NULL,
 	NumeroListadeEspera int NOT NULL,
@@ -97,16 +97,21 @@ create table MedicoEspecialidade
 	PRIMARY KEY(Licenca, IdEspecialidade)
 )
 
+create table MotivoConsulta
+(
+	Motivo nvarchar(30) NOT NULL PRIMARY KEY
+)
+
+
 /*
  * Tabela que representa a entidade Consulta
 */
 create table Consulta 
 (
-	IdConsulta int PRIMARY KEY,
-	Motivo nvarchar(30) NOT NULL CHECK(Motivo = 'acompanhamento' OR Motivo = 'inicial' OR Motivo = 'apresentarExames' OR
-	Motivo = 'posOperatorio' OR Motivo = 'medicacao'), -- GARANTE 8.
+	IdConsulta int PRIMARY KEY IDENTITY(1,1),
+	Motivo nvarchar(30) NOT NULL references MotivoConsulta(Motivo),
 	Data date NOT NULL,
-	DataRegisto datetime NOT NULL,
+	DataRegisto datetime NOT NULL DEFAULT GETDATE(),
 	PacienteConsulta int NOT NULL,
 	MedicoConsulta int NOT NULL,
 	EspecialidadeConsulta int NOT NULL,
@@ -120,11 +125,16 @@ create table Consulta
 */
 create table Medicamento
 (
-	IdMedicamento int PRIMARY KEY,
+	IdMedicamento int PRIMARY KEY IDENTITY(1,1),
 	PrincipioActivo nvarchar(300) NOT NULL,
 	NomeComercial nvarchar(300) NOT NULL,
 	Laboratorio nvarchar(300) NOT NULL,
 	Dose decimal(4,2) NOT NULL
+)
+
+create table Posologia
+(
+	Posologia nvarchar(20) NOT NULL PRIMARY KEY
 )
 
 /*
@@ -134,8 +144,7 @@ create table MedicamentoPaciente
 (
 	IdMedicamento int references Medicamento(IdMedicamento) NOT NULL,
 	IdPaciente int references Paciente(Pessoa) NOT NULL,
-	Posologia nvarchar(20) NOT NULL CHECK(Posologia = '3em3h' OR Posologia ='8em8h' OR Posologia='12em12h' OR Posologia='manha' OR
-	Posologia='aoAlmoço' OR Posologia='aoJantar' OR Posologia='aoDeitar' OR Posologia='emJejum'), -- GARANTE 5.,
+	Posologia nvarchar(20) NOT NULL references Posologia(Posologia), 
 	PRIMARY KEY (IdMedicamento, IdPaciente)
 )
 
@@ -145,13 +154,13 @@ create table MedicamentoPaciente
 */
 create table Fatura
 (
-	IdFatura int NOT NULL,
+	IdFatura int NOT NULL IDENTITY(1,1),
 	Ano int NOT NULL,
 	Data datetime NOT NULL,
 	Morada nvarchar(2000) NOT NULL,
 	Nome nvarchar (1250) NOT NULL,
 	Nif int NOT NULL,
-	Montante decimal(10,2) NOT NULL,
+	Montante decimal(10,2) NOT NULL DEFAULT 40.0,
 	Estado nvarchar(10) NOT NULL CHECK(Estado = 'emitida' OR Estado = 'paga'),
 	PRIMARY KEY (IdFatura)
 )
@@ -161,7 +170,7 @@ create table Fatura
 */
 create table Relatorio
 (
-	IdRelatorio int PRIMARY KEY,
+	IdRelatorio int PRIMARY KEY IDENTITY(1,1),
 	Data datetime NOT NULL,
 	Descricao nvarchar(2000) NOT NULL,
 )
@@ -203,7 +212,7 @@ create table RelatorioMedico
 */
 create table TipoExame
 (
-	IdTipoExame int PRIMARY KEY NOT NULL,
+	IdTipoExame int PRIMARY KEY NOT NULL IDENTITY(1,1),
 	Nome nvarchar(500) NOT NULL,
 	Preco decimal(10,2) NOT NULL
 )
