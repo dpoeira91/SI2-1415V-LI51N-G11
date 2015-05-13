@@ -30,22 +30,15 @@ create table TipoContacto
 */
 create table Morada
 (
+	Pessoa int references Pessoa(Bi),
 	Ordem smallint,
 	Rua nvarchar(1000) NOT NULL,
 	Numero nvarchar(9) NOT NULL,
 	CodigoPostal nvarchar(8) NOT NULL,
 	Cidade nvarchar(300) NOT NULL,
 	Pais nvarchar(300) NOT NULL,
-	Tipo int NOT NULL,
-	FOREIGN KEY (Tipo) references TipoContacto(Tipo),
-	PRIMARY KEY(Ordem)
-)
-
-create table MoradaPessoa
-(
-	Pessoa int references Pessoa(Bi), 
-	Ordem smallint references Morada(Ordem),
-	PRIMARY KEY (Pessoa, Ordem)
+	Tipo int references TipoContacto(Tipo) NOT NULL,
+	PRIMARY KEY(Pessoa,Ordem)
 )
 
 /*
@@ -66,11 +59,11 @@ create table Telefone
 */
 create table Paciente
 (
-	Pessoa int references Pessoa(Bi) NOT NULL,
-	NumeroBenefeciario int UNIQUE NOT NULL,
+	Pessoa int references Pessoa(Bi) NOT NULL UNIQUE,
+	NumeroBenefeciario int NOT NULL,
 	SistemaSaude nvarchar(200) NOT NULL,
 	Bonus int NOT NULL,
-	PRIMARY KEY(Pessoa),
+	PRIMARY KEY(NumeroBenefeciario),
 	CHECK(Bonus >= 0 AND Bonus <= 1000)
 )
 
@@ -89,19 +82,19 @@ create table Especialidade
 */
 create table Medico
 (
-	Pessoa int references Pessoa(Bi) NOT NULL,
-	LicencaMedica nvarchar(20) UNIQUE NOT NULL,
+	Pessoa int references Pessoa(Bi) UNIQUE NOT NULL,
+	LicencaMedica nvarchar(20) NOT NULL,
 	DataLicenca date NOT NULL,
 	NumeroPacientesDiario int NOT NULL,
 	NumeroListadeEspera int NOT NULL,
-	PRIMARY KEY (Pessoa)
+	PRIMARY KEY (LicencaMedica)
 )
 
 create table MedicoEspecialidade
 (
 	IdEspecialidade int references Especialidade(IdEspecialidade) NOT NULL,
-	Pessoa int references Medico(Pessoa) NOT NULL,
-	PRIMARY KEY(Pessoa, IdEspecialidade)
+	Licenca int references Medico(LicencaMedica) NOT NULL,
+	PRIMARY KEY(Licenca, IdEspecialidade)
 )
 
 /*
@@ -117,10 +110,8 @@ create table Consulta
 	PacienteConsulta int NOT NULL,
 	MedicoConsulta int NOT NULL,
 	EspecialidadeConsulta int NOT NULL,
-	FOREIGN KEY (PacienteConsulta) references Paciente(Pessoa),
-	FOREIGN KEY (MedicoConsulta, EspecialidadeConsulta) references MedicoEspecialidade(Pessoa, IdEspecialidade),-- GARANTE 1.
-	CONSTRAINT medicoNotPaciente CHECK(PacienteConsulta != MedicoConsulta) -- GARANTE 3.
-
+	FOREIGN KEY (PacienteConsulta) references Paciente(NumeroBenefeciario),
+	FOREIGN KEY (MedicoConsulta, EspecialidadeConsulta) references MedicoEspecialidade(Licenca, IdEspecialidade)-- GARANTE 1.
 )
 
 

@@ -48,9 +48,6 @@ Drop Table Paciente
 if OBJECT_ID('Telefone') is not null 
 Drop Table Telefone
 
-if OBJECT_ID('MoradaPessoa') is not null 
-Drop Table MoradaPessoa
-
 if OBJECT_ID('Morada') is not null 
 Drop Table Morada
 

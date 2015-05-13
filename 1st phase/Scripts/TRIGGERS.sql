@@ -19,3 +19,10 @@ AS
 		INSERT INTO Consulta (IdConsulta,Motivo,Data,DataRegisto,PacienteConsulta,MedicoConsulta,EspecialidadeConsulta) 
 		SELECT IdConsulta,Motivo,Data,DataRegisto,PacienteConsulta,MedicoConsulta,EspecialidadeConsulta FROM inserted
 GO
+
+CREATE TRIGGER FATURA_TOTAL
+ON ItemFatura
+AFTER INSERT , UPDATE , DELETE 
+AS
+	
+GO
