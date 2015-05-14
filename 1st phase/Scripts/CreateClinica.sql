@@ -4,15 +4,15 @@ use clinica
 */
 CREATE TABLE Pessoa
 (
-	Bi INT NOT NULL,
-	Nif INT NOT NULL UNIQUE,
-	NumeroSS INT NOT NULL UNIQUE,
-	Nome nvarchar(1000) NOT NULL,
-	UltimoNome nvarchar(250) NOT NULL,
-	DataNascimento date NOT NULL,
-	Nacionalidade nvarchar(300),
-	EMail nvarchar(250),
-	PRIMARY KEY(Bi)
+	bi INT NOT NULL,
+	nif INT NOT NULL UNIQUE,
+	numeroSS INT NOT NULL UNIQUE,
+	nome nvarchar(1000) NOT NULL,
+	ultimoNome nvarchar(250) NOT NULL,
+	dataNascimento date NOT NULL,
+	nacionalidade nvarchar(300),
+	email nvarchar(250),
+	PRIMARY KEY(bi)
 )
 
 /*
@@ -20,8 +20,8 @@ CREATE TABLE Pessoa
 */
 create table TipoContacto
 (
-	Tipo int PRIMARY KEY,
-	Descricao nvarchar(250) NOT NULL UNIQUE
+	tipo int PRIMARY KEY,
+	descricao nvarchar(250) NOT NULL UNIQUE
 )
 
 
@@ -30,15 +30,15 @@ create table TipoContacto
 */
 create table Morada
 (
-	Pessoa int references Pessoa(Bi),
-	Ordem smallint,
-	Rua nvarchar(1000) NOT NULL,
-	Numero nvarchar(9) NOT NULL,
-	CodigoPostal nvarchar(8) NOT NULL,
-	Cidade nvarchar(300) NOT NULL,
-	Pais nvarchar(300) NOT NULL,
-	Tipo int references TipoContacto(Tipo) NOT NULL,
-	PRIMARY KEY(Pessoa,Ordem)
+	pessoa int references Pessoa(bi),
+	ordem smallint,
+	rua nvarchar(1000) NOT NULL,
+	numero nvarchar(9) NOT NULL,
+	codigoPostal nvarchar(8) NOT NULL,
+	cidade nvarchar(300) NOT NULL,
+	pais nvarchar(300) NOT NULL,
+	tipo int references TipoContacto(Tipo) NOT NULL,
+	PRIMARY KEY(pessoa,ordem)
 )
 
 /*
@@ -46,12 +46,12 @@ create table Morada
 */
 create table Telefone
 (
-	Pessoa int references Pessoa(Bi),
-	Ordem int,
-	Numero nvarchar(15) NOT NULL,
-	Tipo int NOT NULL,
-	FOREIGN KEY (Tipo) references TipoContacto(Tipo),
-	PRIMARY KEY(Pessoa, Ordem)
+	pessoa int references Pessoa(bi),
+	ordem int,
+	numero nvarchar(15) NOT NULL,
+	tipo int NOT NULL,
+	FOREIGN KEY (tipo) references TipoContacto(tipo),
+	PRIMARY KEY(pessoa, ordem)
 )
 
 /*
@@ -59,12 +59,12 @@ create table Telefone
 */
 create table Paciente
 (
-	Pessoa int references Pessoa(Bi) NOT NULL UNIQUE,
-	NumeroBenefeciario int NOT NULL,
-	SistemaSaude nvarchar(200) NOT NULL,
-	Bonus int NOT NULL,
-	PRIMARY KEY(NumeroBenefeciario),
-	CHECK(Bonus >= 0 AND Bonus <= 1000)
+	pessoa int references Pessoa(bi) NOT NULL UNIQUE,
+	numeroBenefeciario int NOT NULL,
+	sistemaSaude nvarchar(200) NOT NULL,
+	bonus int NOT NULL,
+	PRIMARY KEY(numeroBenefeciario),
+	CHECK(bonus >= 0 AND bonus <= 1000)
 )
 
 /*
@@ -72,9 +72,9 @@ create table Paciente
 */
 create table Especialidade
 (
-	IdEspecialidade int PRIMARY KEY IDENTITY(1,1),
-	Nome nvarchar(300) NOT NULL UNIQUE,
-	Preco decimal(10,2) NOT NULL
+	idEspecialidade int PRIMARY KEY IDENTITY(1,1),
+	nome nvarchar(300) NOT NULL UNIQUE,
+	preco decimal(10,2) NOT NULL
 )
 
 /*
@@ -82,24 +82,23 @@ create table Especialidade
 */
 create table Medico
 (
-	Pessoa int references Pessoa(Bi) UNIQUE NOT NULL,
-	LicencaMedica int NOT NULL,
-	DataLicenca date NOT NULL,
-	NumeroPacientesDiario int NOT NULL,
-	NumeroListadeEspera int NOT NULL,
-	PRIMARY KEY (LicencaMedica)
+	pessoa int references Pessoa(bi) UNIQUE NOT NULL,
+	licencaMedica int NOT NULL PRIMARY KEY,
+	dataLicenca date NOT NULL,
+	numeroPacientesDiario int NOT NULL,
+	numeroListadeEspera int NOT NULL,
 )
 
 create table MedicoEspecialidade
 (
-	IdEspecialidade int references Especialidade(IdEspecialidade) NOT NULL,
-	Licenca int references Medico(LicencaMedica) NOT NULL,
-	PRIMARY KEY(Licenca, IdEspecialidade)
+	idEspecialidade int references Especialidade(idEspecialidade) NOT NULL,
+	licenca int references Medico(licencaMedica) NOT NULL,
+	PRIMARY KEY(licenca, idEspecialidade)
 )
 
 create table MotivoConsulta
 (
-	Motivo nvarchar(30) NOT NULL PRIMARY KEY
+	motivo nvarchar(30) NOT NULL PRIMARY KEY
 )
 
 
@@ -108,15 +107,14 @@ create table MotivoConsulta
 */
 create table Consulta 
 (
-	IdConsulta int PRIMARY KEY IDENTITY(1,1),
-	Motivo nvarchar(30) NOT NULL references MotivoConsulta(Motivo),
-	Data date NOT NULL,
-	DataRegisto datetime NOT NULL DEFAULT GETDATE(),
-	PacienteConsulta int NOT NULL,
-	MedicoConsulta int NOT NULL,
-	EspecialidadeConsulta int NOT NULL,
-	FOREIGN KEY (PacienteConsulta) references Paciente(NumeroBenefeciario),
-	FOREIGN KEY (MedicoConsulta, EspecialidadeConsulta) references MedicoEspecialidade(Licenca, IdEspecialidade)-- GARANTE 1.
+	idConsulta int PRIMARY KEY IDENTITY(1,1),
+	motivo nvarchar(30) NOT NULL references MotivoConsulta(motivo),
+	data date NOT NULL,
+	dataRegisto datetime NOT NULL DEFAULT GETDATE(),
+	pacienteConsulta int NOT NULL references Paciente(numeroBenefeciario),
+	medicoConsulta int NOT NULL,
+	especialidadeConsulta int NOT NULL,
+	FOREIGN KEY (medicoConsulta, especialidadeConsulta) references MedicoEspecialidade(licenca, idEspecialidade)-- GARANTE 1.
 )
 
 
@@ -125,16 +123,16 @@ create table Consulta
 */
 create table Medicamento
 (
-	IdMedicamento int PRIMARY KEY IDENTITY(1,1),
-	PrincipioActivo nvarchar(300) NOT NULL,
-	NomeComercial nvarchar(300) NOT NULL,
-	Laboratorio nvarchar(300) NOT NULL,
-	Dose decimal(4,2) NOT NULL
+	idMedicamento int PRIMARY KEY IDENTITY(1,1),
+	principioActivo nvarchar(300) NOT NULL,
+	nomeComercial nvarchar(300) NOT NULL,
+	laboratorio nvarchar(300) NOT NULL,
+	dose decimal(4,2) NOT NULL
 )
 
 create table Posologia
 (
-	Posologia nvarchar(20) NOT NULL PRIMARY KEY
+	posologia nvarchar(20) NOT NULL PRIMARY KEY
 )
 
 /*
@@ -142,10 +140,10 @@ create table Posologia
 */
 create table MedicamentoPaciente
 (
-	IdMedicamento int references Medicamento(IdMedicamento) NOT NULL,
-	IdPaciente int references Paciente(Pessoa) NOT NULL,
-	Posologia nvarchar(20) NOT NULL references Posologia(Posologia), 
-	PRIMARY KEY (IdMedicamento, IdPaciente)
+	idMedicamento int,
+	idPaciente int references HistoricoPaciente(pessoa) NOT NULL,
+	posologia nvarchar(20) NOT NULL, 
+	PRIMARY KEY (idMedicamento, idPaciente)
 )
 
 
@@ -154,15 +152,15 @@ create table MedicamentoPaciente
 */
 create table Fatura
 (
-	IdFatura int NOT NULL IDENTITY(1,1),
-	Ano int NOT NULL,
-	Data datetime NOT NULL,
-	Morada nvarchar(2000) NOT NULL,
-	Nome nvarchar (1250) NOT NULL,
-	Nif int NOT NULL,
-	Montante decimal(10,2) NOT NULL DEFAULT 40.0,
-	Estado nvarchar(10) NOT NULL CHECK(Estado = 'emitida' OR Estado = 'paga'),
-	PRIMARY KEY (IdFatura)
+	idFatura int NOT NULL IDENTITY(1,1),
+	ano int NOT NULL,
+	data datetime NOT NULL,
+	morada nvarchar(2000) NOT NULL,
+	nome nvarchar (1250) NOT NULL,
+	nif int NOT NULL,
+	montante decimal(10,2) NOT NULL DEFAULT 40.0, --???
+	estado nvarchar(10) NOT NULL CHECK(estado = 'emitida' OR estado = 'paga'),
+	PRIMARY KEY (idFatura)
 )
 
 /*
@@ -170,9 +168,9 @@ create table Fatura
 */
 create table Relatorio
 (
-	IdRelatorio int PRIMARY KEY IDENTITY(1,1),
-	Data datetime NOT NULL,
-	Descricao nvarchar(2000) NOT NULL,
+	idRelatorio int PRIMARY KEY IDENTITY(1,1),
+	data datetime NOT NULL,
+	descricao nvarchar(2000) NOT NULL,
 )
 
 /*
@@ -180,20 +178,20 @@ create table Relatorio
 */
 create table ItemFatura
 (
-	Numero int NOT NULL,
-	IdFatura int references Fatura(IdFatura),
-	Descricao nvarchar(1000) NOT NULL,
-	Montante decimal(10,2) NOT NULL,
-	PRIMARY KEY (IdFatura, Numero)
+	numero int NOT NULL,
+	idFatura int references Fatura(idFatura),
+	descricao nvarchar(1000) NOT NULL,
+	montante decimal(10,2) NOT NULL,
+	PRIMARY KEY (idFatura, numero)
 )
 
 create table ItemFaturaRelatorio
 (
-	Numero int NOT NULL,
-	IdFatura int NOT NULL,
-	IdRelatorio int references Relatorio(IdRelatorio) NOT NULL UNIQUE,
-	FOREIGN KEY (IdFatura, Numero) references ItemFatura(IdFatura, Numero),
-	PRIMARY KEY (Numero, IdFatura)
+	numero int NOT NULL,
+	idFatura int NOT NULL,
+	idRelatorio int references Relatorio(idRelatorio) NOT NULL UNIQUE,
+	FOREIGN KEY (idFatura, numero) references ItemFatura(idFatura, numero),
+	PRIMARY KEY (numero, idFatura)
 )
 
 /*
@@ -201,10 +199,10 @@ create table ItemFaturaRelatorio
 */
 create table RelatorioMedico
 (
-	IdRelatorio int references Relatorio(IdRelatorio),
-	EstadoClinico nvarchar(2000) NOT NULL,
-	Prescricoes nvarchar(2000),
-	PRIMARY KEY (IdRelatorio)
+	idRelatorio int references Relatorio(idRelatorio),
+	estadoClinico nvarchar(2000) NOT NULL,
+	prescricoes nvarchar(2000),
+	PRIMARY KEY (idRelatorio)
 )
 
 /*
@@ -212,9 +210,9 @@ create table RelatorioMedico
 */
 create table TipoExame
 (
-	IdTipoExame int PRIMARY KEY NOT NULL IDENTITY(1,1),
-	Nome nvarchar(500) NOT NULL,
-	Preco decimal(10,2) NOT NULL
+	idTipoExame int PRIMARY KEY NOT NULL IDENTITY(1,1),
+	nome nvarchar(500) NOT NULL,
+	preco decimal(10,2) NOT NULL
 )
 
 /*
@@ -222,12 +220,12 @@ create table TipoExame
 */
 create table RelatorioExame
 (
-	IdRelatorio int references Relatorio(IdRelatorio),
-	IdEquipamento int,
-	Notas nvarchar(2000),
-	Resultado xml/*(examesMedicosXSD)*/ NOT NULL,
-	Tipo int references TipoExame(IdTipoExame) NOT NULL,
-	PRIMARY KEY (IdRelatorio)
+	idRelatorio int references Relatorio(idRelatorio),
+	idEquipamento int,
+	notas nvarchar(2000),
+	resultado xml/*(examesMedicosXSD)*/ NOT NULL,
+	tipo int references TipoExame(idTipoExame) NOT NULL,
+	PRIMARY KEY (idRelatorio)
 )
 
 /*
@@ -235,11 +233,57 @@ create table RelatorioExame
 */
 create table RelatorioMensalFinanceiro
 (
-	Ano int NOT NULL,
-	Mes int NOT NULL,
-	Relatorio xml NOT NULL,
-	PRIMARY KEY (Ano, Mes)
+	ano int NOT NULL,
+	mes int NOT NULL,
+	relatorio xml NOT NULL,
+	PRIMARY KEY (ano, mes)
 )
+
+--Tabelas do Historico de Pacientes
+
+
+/*
+ * Tabela que representa a entidade Pessoa
+*/
+CREATE TABLE HistoricoPaciente
+(
+	bi INT NOT NULL,
+	nif INT ,
+	numeroSS INT,
+	nome nvarchar(1000),
+	ultimoNome nvarchar(250),
+	dataNascimento date ,
+	nacionalidade nvarchar(300),
+	email nvarchar(250),
+	
+	--atributos de morada assume se  que fica a morada com ordem 1
+	rua nvarchar(1000) ,
+	numero nvarchar(9) ,
+	codigoPostal nvarchar(8) ,
+	cidade nvarchar(300),
+	pais nvarchar(300),
+	
+	--atributos de telefone assume se  que fica o telefone com ordem 1
+	numero nvarchar(15),
+	
+	--atrubitos de Paciente
+	numeroBenefeciario int,
+	sistemaSaude nvarchar(200) ,
+	bonus int,
+	PRIMARY KEY(numeroBenefeciario),
+)
+
+/*
+ * Tabela que representa a entidade MedicamentoPaciente
+*/
+create table HistoricoMedicamentoPaciente
+(
+	idMedicamento int,
+	idPaciente int references HistoricoPessoa(numeroBenefeciario) ,
+	posologia nvarchar(20),
+	PRIMARY KEY (idMedicamento, idPaciente)
+)
+
 
 --drop XML SCHEMA COLLECTION examesMedicosXSD 
 /*CREATE XML SCHEMA COLLECTION examesMedicosXSD AS
@@ -279,8 +323,3 @@ create table RelatorioMensalFinanceiro
 </xs:complexType>
 </xs:schema>'
 */
-
-
-
-
-

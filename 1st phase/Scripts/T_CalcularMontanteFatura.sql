@@ -14,8 +14,8 @@ ON ItemFatura
 AFTER INSERT
 AS
 	UPDATE Fatura 
-	SET Montante += (SELECT Montante FROM inserted 
-						WHERE Fatura.IdFatura = inserted.IdFatura)
+	SET montante += (SELECT montante FROM inserted 
+						WHERE Fatura.idFatura = inserted.idFatura)
 
 
 GO
@@ -25,8 +25,8 @@ ON ItemFatura
 AFTER DELETE
 AS
 	UPDATE Fatura 
-	SET Montante -= (SELECT Montante FROM deleted 
-						WHERE Fatura.IdFatura = deleted.IdFatura)
+	SET montante -= (SELECT montante FROM deleted 
+						WHERE Fatura.idFatura = deleted.idFatura)
 
 GO
 
@@ -35,8 +35,8 @@ ON ItemFatura
 AFTER UPDATE
 AS
 	UPDATE Fatura 
-	SET Montante += (SELECT Montante FROM inserted 
-						WHERE Fatura.IdFatura = inserted.IdFatura) - (SELECT Montante FROM deleted 
-						WHERE Fatura.IdFatura = deleted.IdFatura)
+	SET montante += (SELECT montante FROM inserted 
+						WHERE Fatura.idFatura = inserted.idFatura) - (SELECT montante FROM deleted 
+						WHERE Fatura.idFatura = deleted.idFatura)
 
 GO
