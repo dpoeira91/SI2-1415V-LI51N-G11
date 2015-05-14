@@ -93,15 +93,16 @@ values	('emitida'),
 		
 INSERT INTO Fatura(ano,data,morada,nome,nif,montante,estado)
 values(2015,'2015-03-11 11:11','aaa','Diogo',2,0,'emitida'),
-		(2015,'2015-03-11 11:12','aaa','Ana',1,0,'emitida'),
+		(2015,'2015-03-11 11:12','aaa','Ana',1,0,'paga'),
 		(2015,'2015-03-11 11:13','aaa','Susana',3,20,'emitida'),
 		(2015,'2015-03-11 11:13','aaa','Susana',3,30,'emitida'),
 		(2015,'2015-04-11 11:13','aaa','Susana',3,40,'emitida'),
 		(2015,'2015-01-11 11:13','aaa','Susana',3,50,'emitida'),
 		(2015,'2015-08-11 11:13','aaa','Susana',3,60,'emitida'),
 		(2015,'2015-03-12 11:13','aaa','Susana',3,70,'emitida'),
-		(2015,'2015-03-11 11:14','aaa','Ana',1,0,'emitida'),
-		(2015,'2015-03-11 11:15','aaa','Diogo',2,0,'emitida');
+		(2015,'2015-03-11 11:14','aaa','Ana',1,0,'paga'),
+		(2015,'2015-03-11 11:15','aaa','Diogo',2,0,'emitida'),
+		(2015,'2015-05-11 11:15','aaa','Ana',1,0,'paga');
 
 INSERT INTO Relatorio(data,descricao)
 values('2015-03-11 11:11','aaaa'),

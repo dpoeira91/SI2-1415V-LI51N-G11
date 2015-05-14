@@ -246,46 +246,61 @@ create table RelatorioMensalFinanceiro
 
 --Tabelas do Historico de Pacientes
 
-
-/*
- * Tabela que representa a entidade Pessoa
-*/
 CREATE TABLE HistoricoPaciente
 (
-	bi INT NOT NULL,
+	numeroBenefeciario int PRIMARY KEY,
+	sistemaSaude nvarchar(200),
+	bonus int,
+
+	--atrubitos de Pessoa
+	bi INT,
 	nif INT ,
 	numeroSS INT,
 	nome nvarchar(1000),
 	ultimoNome nvarchar(250),
 	dataNascimento date ,
 	nacionalidade nvarchar(300),
-	email nvarchar(250),
-	
-	--atributos de morada assume se  que fica a morada com ordem 1
-	rua nvarchar(1000) ,
-	numero nvarchar(9) ,
-	codigoPostal nvarchar(8) ,
-	cidade nvarchar(300),
-	pais nvarchar(300),
-	
-	--atributos de telefone assume se  que fica o telefone com ordem 1
-	numeroTelefone nvarchar(15),
-	
-	--atrubitos de Paciente
-	numeroBenefeciario int PRIMARY KEY,
-	sistemaSaude nvarchar(200),
-	bonus int,
+	email nvarchar(250)
 )
 
-/*
- * Tabela que representa a entidade MedicamentoPaciente
-*/
+create table HistoricoMorada(
+	pessoa int references HistoricoPaciente(numeroBenefeciario),
+	ordem smallint,
+	rua nvarchar(1000),
+	numero nvarchar(9),
+	codigoPostal nvarchar(8),
+	cidade nvarchar(300),
+	pais nvarchar(300),
+	tipo int,
+	PRIMARY KEY(pessoa,ordem)
+)
+
+create table HistoricoTelefone
+(
+	pessoa int references HistoricoPaciente(numeroBenefeciario),
+	ordem int,
+	numero nvarchar(15),
+	tipo int,
+	PRIMARY KEY(pessoa, ordem)
+)
+
 create table HistoricoMedicamentoPaciente
 (
 	idMedicamento int,
 	idPaciente int references HistoricoPaciente(numeroBenefeciario) ,
 	posologia nvarchar(20),
 	PRIMARY KEY (idMedicamento, idPaciente)
+)
+
+create table HistoricoConsulta
+(
+	idConsulta int PRIMARY KEY,
+	motivo nvarchar(30),
+	data date,
+	dataRegisto datetime,
+	pacienteConsulta int references HistoricoPaciente(numeroBenefeciario),
+	medicoConsulta int,
+	especialidadeConsulta int
 )
 
 

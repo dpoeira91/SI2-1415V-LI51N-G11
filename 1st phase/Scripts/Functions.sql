@@ -11,6 +11,10 @@ END
 
 GO
 
+if OBJECT_ID('FaturasEmDivida') is not null
+DROP FUNCTION FaturasEmDivida
+
+GO
 ---- VERIFICAR FACTURAS POR PAGAR ----
 CREATE FUNCTION FaturasEmDivida(@paciente int)
 RETURNS INT
@@ -22,7 +26,7 @@ BEGIN
 				ON(Pessoa.bi = Paciente.pessoa) 
 				INNER JOIN Fatura 
 				ON(Fatura.nif = Pessoa.nif)
-			WHERE	Paciente.numeroBenefeciario = 3 
+			WHERE	Paciente.numeroBenefeciario = @paciente 
 					AND Fatura.estado = 'emitida'
 			)
 END

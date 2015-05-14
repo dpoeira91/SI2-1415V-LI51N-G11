@@ -1,10 +1,19 @@
 use clinica
 
-if OBJECT_ID('HistoricoPaciente') is not null 
-Drop Table HistoricoPaciente
+if OBJECT_ID('HistoricoConsulta') is not null 
+Drop Table HistoricoConsulta
 
 if OBJECT_ID('HistoricoMedicamentoPaciente') is not null 
 Drop Table HistoricoMedicamentoPaciente
+
+if OBJECT_ID('HistoricoTelefone') is not null 
+Drop Table HistoricoTelefone
+
+if OBJECT_ID('HistoricoMorada') is not null 
+Drop Table HistoricoMorada
+
+if OBJECT_ID('HistoricoPaciente') is not null 
+Drop Table HistoricoPaciente
 
 if OBJECT_ID('RelatorioMensalFinanceiro') is not null --verificação para garantir que existe a tabela antes de a apagar senão vai dar erro no drop
 Drop Table RelatorioMensalFinanceiro
