@@ -5,8 +5,8 @@ RETURNS BIT
 AS
 BEGIN
 --DECLARE @count int - possibilidade
-	RETURN (SELECT 1 FROM Medico INNER JOIN Paciente ON (Medico.Pessoa = Paciente.Pessoa) 
-	WHERE Medico.LicencaMedica = @medico AND Paciente.NumeroBenefeciario = @paciente)
+	RETURN (SELECT 1 FROM Medico INNER JOIN Paciente ON (Medico.pessoa = Paciente.pessoa) 
+	WHERE Medico.licencaMedica = @medico AND Paciente.numeroBenefeciario = @paciente)
 END
 
 GO
@@ -16,13 +16,13 @@ CREATE FUNCTION FaturasEmDivida(@paciente int)
 RETURNS INT
 AS
 BEGIN
-	RETURN (SELECT COUNT(Fatura.IdFatura) 
+	RETURN (SELECT COUNT(Fatura.idFatura) 
 			FROM Pessoa 
 				INNER JOIN Paciente 
-				ON(Pessoa.Bi = Paciente.Pessoa) 
+				ON(Pessoa.bi = Paciente.pessoa) 
 				INNER JOIN Fatura 
-				ON(Fatura.Nif = Pessoa.Nif)
-			WHERE	Paciente.NumeroBenefeciario = 3 
-					AND Fatura.Estado = 'emitida'
+				ON(Fatura.nif = Pessoa.nif)
+			WHERE	Paciente.numeroBenefeciario = 3 
+					AND Fatura.estado = 'emitida'
 			)
 END

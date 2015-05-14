@@ -5,7 +5,7 @@ RETURNS BIT
 AS
 BEGIN
 	RETURN (SELECT 1 FROM Pessoa 
-				WHERE Pessoa.Nif = @nif AND Pessoa.Nome = @nome)
+				WHERE Pessoa.nif = @nif AND Pessoa.nome = @nome)
 END
 
 GO

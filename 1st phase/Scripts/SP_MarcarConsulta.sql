@@ -18,7 +18,7 @@ BEGIN
 		PRINT('O paciente tem 5 ou mais faturas por pagar!') -- RAISEERROR 
 		return
 	END
-	INSERT INTO Consulta(Motivo, Data, DataRegisto, PacienteConsulta, MedicoConsulta, EspecialidadeConsulta)
+	INSERT INTO Consulta(motivo, data, dataRegisto, pacienteConsulta, medicoConsulta, especialidadeConsulta)
 		values(@motivo, @data, GETDATE(), @paciente, @medico, @especialidade)
 	PRINT('A consulta foi marcada com sucesso!')
 END

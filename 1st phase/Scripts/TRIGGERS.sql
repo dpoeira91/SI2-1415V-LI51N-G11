@@ -8,16 +8,16 @@ AS
 	DECLARE @Count int
 	DECLARE @NIFPaciente int
 
-	SELECT @NIFPaciente = Pessoa.NIF FROM inserted INNER JOIN Pessoa ON (inserted.PacienteConsulta = Pessoa.Bi)
+	SELECT @NIFPaciente = Pessoa.nif FROM inserted INNER JOIN Pessoa ON (inserted.pacienteConsulta = pessoa.bi)
 
-	SELECT @Count = COUNT(IdFatura) FROM Fatura
-	WHERE Nif = @NIFPaciente AND Estado = 'emitida'
+	SELECT @Count = COUNT(idFatura) FROM Fatura
+	WHERE nif = @NIFPaciente AND estado = 'emitida'
 
 	IF(@Count>5)
 		PRINT ('O Paciente com o NIF ' + cast(@NIFPaciente as nvarchar(20)) + ' tem mais de 5 faturas por pagar!\n Pague as dividas antes de marcar uma nova consulta.')	
 	Else
-		INSERT INTO Consulta (IdConsulta,Motivo,Data,DataRegisto,PacienteConsulta,MedicoConsulta,EspecialidadeConsulta) 
-		SELECT IdConsulta,Motivo,Data,DataRegisto,PacienteConsulta,MedicoConsulta,EspecialidadeConsulta FROM inserted
+		INSERT INTO Consulta (idConsulta,motivo,data,dataRegisto,pacienteConsulta,medicoConsulta,especialidadeConsulta) 
+		SELECT idConsulta,motivo,data,dataRegisto,pacienteConsulta,medicoConsulta,especialidadeConsulta FROM inserted
 GO
 
 CREATE TRIGGER FATURA_TOTAL
