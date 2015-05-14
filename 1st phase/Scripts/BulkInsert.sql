@@ -62,6 +62,7 @@ INSERT INTO Consulta(motivo, data, pacienteConsulta, medicoConsulta, especialida
 values('inicial', '2015-02-11', 2, 11, 1),
 		('acompanhamento','2015-12-11', 1, 22, 1),
 		('inicial', '2015-02-11', 3, 11, 3),
+		('inicial', '2015-02-11', 3, 11, 3),
 		('inicial', '2015-02-11', 2, 33, 1);
 
 INSERT INTO Medicamento(principioActivo, nomeComercial, laboratorio, dose)
