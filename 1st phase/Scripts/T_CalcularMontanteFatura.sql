@@ -15,7 +15,7 @@ AFTER INSERT
 AS
 	UPDATE Fatura 
 	SET Montante += (SELECT Montante FROM inserted 
-						WHERE Fatura.IdFatura = inserted.IdFatura)
+						WHERE Fatura.IdFatura = inserted.IdFatura) * CalculaBonus((SELECT Nif FROM Fatura WHERE Fatura.IdFatura = inserted.IdFatura))
 
 
 GO

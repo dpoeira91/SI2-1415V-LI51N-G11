@@ -29,10 +29,10 @@ values(1, 1, '1', 4),
 		(3, 3, '3', 3),
 		(1, 4, '4', 1);
 
-INSERT INTO Paciente(Pessoa, NumeroBenefeciario, SistemaSaude, Bonus)
-values(1, 1, 'aaa', 0),
-		(2, 2, 'bbb', 0),
-		(3, 3, 'aaa', 0);
+INSERT INTO Paciente(Pessoa, NumeroBenefeciario, SistemaSaude)
+values(1, 1, 'aaa'),
+		(2, 2, 'bbb'),
+		(3, 3, 'aaa');
 
 INSERT INTO Especialidade(Nome, Preco)
 values('Oftm', 50),
@@ -86,6 +86,10 @@ INSERT INTO MedicamentoPaciente(IdMedicamento,IdPaciente, Posologia)
 		(3,3,'3em3h'),
 		(3,1,'3em3h'),
 		(1,2,'3em3h');
+
+INSERT INTO EstadoFatura(estado)
+values	('emitida'),
+		('paga');
 
 INSERT INTO Fatura(Ano,Data,Morada,Nome,Nif,Montante,Estado)
 values(2015,'2015-03-11 11:11','aaa','Diogo',2,0,'emitida'),

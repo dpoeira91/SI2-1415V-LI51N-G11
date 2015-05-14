@@ -1,3 +1,5 @@
+use clinica
+GO
 CREATE FUNCTION VerificarPessoa(@nif int , @nome nvarchar(1250))
 RETURNS BIT
 AS

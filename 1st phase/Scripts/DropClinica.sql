@@ -24,6 +24,9 @@ Drop Table Relatorio
 if OBJECT_ID('Fatura') is not null 
 Drop Table Fatura
 
+if OBJECT_ID('EstadoFatura') is not null 
+Drop Table EstadoFatura
+
 if OBJECT_ID('MedicamentoPaciente') is not null 
 Drop Table MedicamentoPaciente
 
@@ -47,6 +50,9 @@ Drop Table Medico
 
 if OBJECT_ID('Especialidade') is not null 
 Drop Table Especialidade
+
+if OBJECT_ID('BonusPaciente') is not null 
+Drop Table BonusPaciente
 
 if OBJECT_ID('Paciente') is not null 
 Drop Table Paciente

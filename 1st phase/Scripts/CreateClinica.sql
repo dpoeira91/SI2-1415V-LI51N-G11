@@ -62,9 +62,9 @@ create table Paciente
 	Pessoa int references Pessoa(Bi) NOT NULL UNIQUE,
 	NumeroBenefeciario int NOT NULL,
 	SistemaSaude nvarchar(200) NOT NULL,
-	Bonus int NOT NULL,
+	bonus int NOT NULL default 0 CHECK(bonus >=0),
+	temDesconto BIT NOT NULL default 0
 	PRIMARY KEY(NumeroBenefeciario),
-	CHECK(Bonus >= 0 AND Bonus <= 1000)
 )
 
 /*
@@ -149,6 +149,11 @@ create table MedicamentoPaciente
 )
 
 
+create table EstadoFatura
+(
+	estado nvarchar(10) NOT NULL PRIMARY KEY
+)
+
 /*
  * Tabela que representa a entidade Fatura
 */
@@ -161,7 +166,7 @@ create table Fatura
 	Nome nvarchar (1250) NOT NULL,
 	Nif int NOT NULL,
 	Montante decimal(10,2) NOT NULL DEFAULT 40.0,
-	Estado nvarchar(10) NOT NULL CHECK(Estado = 'emitida' OR Estado = 'paga'),
+	Estado nvarchar(10) NOT NULL references EstadoFatura(estado),
 	PRIMARY KEY (IdFatura)
 )
 
