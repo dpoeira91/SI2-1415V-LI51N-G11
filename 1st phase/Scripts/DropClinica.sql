@@ -1,5 +1,11 @@
 use clinica
 
+if OBJECT_ID('HistoricoPaciente') is not null 
+Drop Table HistoricoPaciente
+
+if OBJECT_ID('HistoricoMedicamentoPaciente') is not null 
+Drop Table HistoricoMedicamentoPaciente
+
 if OBJECT_ID('RelatorioMensalFinanceiro') is not null --verificação para garantir que existe a tabela antes de a apagar senão vai dar erro no drop
 Drop Table RelatorioMensalFinanceiro
 
