@@ -272,10 +272,9 @@ CREATE TABLE HistoricoPaciente
 	numeroTelefone nvarchar(15),
 	
 	--atrubitos de Paciente
-	numeroBenefeciario int,
-	sistemaSaude nvarchar(200) ,
+	numeroBenefeciario int PRIMARY KEY,
+	sistemaSaude nvarchar(200),
 	bonus int,
-	PRIMARY KEY(numeroBenefeciario),
 )
 
 /*
