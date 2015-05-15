@@ -165,7 +165,7 @@ create table EstadoFatura
 */
 create table Fatura
 (
-	idFatura int NOT NULL IDENTITY(1,1),
+	idFatura int NOT NULL ,
 	ano int NOT NULL,
 	data datetime NOT NULL,
 	morada nvarchar(2000) NOT NULL,
