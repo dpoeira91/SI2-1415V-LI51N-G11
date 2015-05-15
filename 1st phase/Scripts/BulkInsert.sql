@@ -1,5 +1,7 @@
 use clinica
 
+INSERT INTO Meta(limiteListaEspera,montanteBase)values(10,40)
+
 INSERT INTO Pessoa(bi, nif, numeroSS, nome, ultimoNome, dataNascimento, nacionalidade, email)
 values(1, 1, 1111111, 'Ana', 'Sequeira', '1990-01-01', 'Portuguesa', '1111@isel.pt'),
 		(2, 2, 2222222, 'Diogo', 'Poeira', '1991-02-02', 'Portuguesa', '2222@isel.pt'),

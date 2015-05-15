@@ -2,6 +2,14 @@ use clinica
 /*
  * Tabela que representa a entidade Pessoa
 */
+CREATE TABLE Meta
+(
+id int identity PRIMARY KEY,
+limiteListaEspera int ,
+montanteBase int
+)
+
+
 CREATE TABLE Pessoa
 (
 	bi INT NOT NULL,
@@ -163,7 +171,7 @@ create table Fatura
 	morada nvarchar(2000) NOT NULL,
 	nome nvarchar (1250) NOT NULL,
 	nif int NOT NULL,
-	montante decimal(10,2) NOT NULL DEFAULT 40.0, --???
+	montante decimal(10,2) NOT NULL DEFAULT dbo.ValorBaseConsulta(),
 	estado nvarchar(20) NOT NULL references EstadoFatura(estado),
 	PRIMARY KEY (idFatura)
 )

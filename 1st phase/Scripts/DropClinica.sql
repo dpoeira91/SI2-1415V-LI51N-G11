@@ -84,4 +84,5 @@ Drop Table TipoContacto
 if OBJECT_ID('Pessoa') is not null 
 Drop Table Pessoa
 
-
+if OBJECT_ID('Meta') is not null 
+Drop Table Meta
