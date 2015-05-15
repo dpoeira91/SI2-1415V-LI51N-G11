@@ -97,6 +97,15 @@ create table Medico
 	numeroListadeEspera int NOT NULL,
 )
 
+create table ListaDeEspera
+(
+medico int not null references Medico(licencaMedica),
+paciente int references Paciente(NumeroBenefeciario),
+especialidade int references Especialidade(idEspecialidade),
+data date
+PRIMARY KEY(medico,paciente,especialidade,data)
+)
+
 create table MedicoEspecialidade
 (
 	idEspecialidade int references Especialidade(idEspecialidade) NOT NULL,

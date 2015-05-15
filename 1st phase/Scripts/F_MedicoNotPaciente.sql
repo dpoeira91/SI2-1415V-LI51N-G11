@@ -1,3 +1,7 @@
+if OBJECT_ID('MedicoNotPaciente') is not null 
+DROP FUNCTION MarcarConsulta
+
+GO
 ---- VERIFICAR QUE MÉDICO NÃO É O PACIENTE ----
 CREATE FUNCTION MedicoNotPaciente(
 @paciente int, @medico int)

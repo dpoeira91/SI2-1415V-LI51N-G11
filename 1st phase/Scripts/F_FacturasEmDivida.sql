@@ -1,4 +1,3 @@
-
 if OBJECT_ID('FaturasEmDivida') is not null
 DROP FUNCTION FaturasEmDivida
 
