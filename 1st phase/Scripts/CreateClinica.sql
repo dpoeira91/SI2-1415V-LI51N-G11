@@ -149,7 +149,7 @@ create table MedicamentoPaciente
 
 create table EstadoFatura
 (
-	estado nvarchar(10) NOT NULL PRIMARY KEY
+	estado nvarchar(20) NOT NULL PRIMARY KEY
 )
 
 /*
@@ -164,7 +164,7 @@ create table Fatura
 	nome nvarchar (1250) NOT NULL,
 	nif int NOT NULL,
 	montante decimal(10,2) NOT NULL DEFAULT 40.0, --???
-	estado nvarchar(10) NOT NULL references EstadoFatura(estado),
+	estado nvarchar(20) NOT NULL references EstadoFatura(estado),
 	PRIMARY KEY (idFatura)
 )
 

@@ -90,7 +90,8 @@ INSERT INTO MedicamentoPaciente(idMedicamento,idPaciente, posologia)
 
 INSERT INTO EstadoFatura(estado)
 values	('emitida'),
-		('paga');
+		('paga'),
+		('emProcessamento');
 		
 INSERT INTO Fatura(ano,data,morada,nome,nif,montante,estado)
 values(2015,'2015-03-11 11:11','aaa','Diogo',2,0,'emitida'),
