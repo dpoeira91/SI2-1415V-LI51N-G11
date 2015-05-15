@@ -1,0 +1,10 @@
+use clinica
+GO
+
+DROP SEQUENCE ItemFacturaID
+GO
+
+CREATE SEQUENCE ItemFacturaID
+    START WITH 1
+    INCREMENT BY 1;
+GO
