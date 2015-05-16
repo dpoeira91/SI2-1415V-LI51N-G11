@@ -60,6 +60,9 @@ Drop Table MotivoConsulta
 if OBJECT_ID('MedicoEspecialidade') is not null 
 Drop Table MedicoEspecialidade
 
+if OBJECT_ID('ListaDeEspera') is not null 
+Drop Table ListaDeEspera
+
 if OBJECT_ID('Medico') is not null 
 Drop Table Medico
 
@@ -84,4 +87,5 @@ Drop Table TipoContacto
 if OBJECT_ID('Pessoa') is not null 
 Drop Table Pessoa
 
-
+if OBJECT_ID('Meta') is not null 
+Drop Table Meta

@@ -2,6 +2,14 @@ use clinica
 /*
  * Tabela que representa a entidade Pessoa
 */
+CREATE TABLE Meta
+(
+id int identity PRIMARY KEY,
+limiteListaEspera int ,
+montanteBase int
+)
+
+
 CREATE TABLE Pessoa
 (
 	bi INT NOT NULL,
@@ -89,6 +97,15 @@ create table Medico
 	numeroListadeEspera int NOT NULL,
 )
 
+create table ListaDeEspera
+(
+medico int not null references Medico(licencaMedica),
+paciente int references Paciente(NumeroBenefeciario),
+especialidade int references Especialidade(idEspecialidade),
+data date
+PRIMARY KEY(medico,paciente,especialidade,data)
+)
+
 create table MedicoEspecialidade
 (
 	idEspecialidade int references Especialidade(idEspecialidade) NOT NULL,
@@ -141,7 +158,7 @@ create table Posologia
 create table MedicamentoPaciente
 (
 	idMedicamento int,
-	idPaciente int references Paciente(pessoa) NOT NULL,
+	idPaciente int references Paciente(numeroBenefeciario) NOT NULL,
 	posologia nvarchar(20) NOT NULL, 
 	PRIMARY KEY (idMedicamento, idPaciente)
 )
@@ -163,9 +180,9 @@ create table Fatura
 	morada nvarchar(2000) NOT NULL,
 	nome nvarchar (1250) NOT NULL,
 	nif int NOT NULL,
-	montante decimal(10,2) NOT NULL,
+	montante decimal(10,2) NOT NULL DEFAULT dbo.ValorBaseConsulta(),
 	estado nvarchar(20) NOT NULL references EstadoFatura(estado),
-	PRIMARY KEY (idFatura)
+	PRIMARY KEY (ano,idFatura)
 )
 
 /*
@@ -175,6 +192,7 @@ create table Relatorio
 (
 	idRelatorio int PRIMARY KEY IDENTITY(1,1),
 	data datetime NOT NULL,
+	consulta int,
 	descricao nvarchar(2000) NOT NULL,
 )
 
@@ -184,19 +202,22 @@ create table Relatorio
 create table ItemFatura
 (
 	numero int NOT NULL,
-	idFatura int references Fatura(idFatura),
+	idFatura int NOT NULL,
+	ano int NOT NULL,
 	descricao nvarchar(1000) NOT NULL,
 	montante decimal(10,2) NOT NULL,
-	PRIMARY KEY (idFatura, numero)
+	FOREIGN KEY (ano,idFatura) REFERENCES Fatura(ano, idFatura),
+	PRIMARY KEY (ano, idFatura, numero)
 )
 
 create table ItemFaturaRelatorio
 (
 	numero int NOT NULL,
 	idFatura int NOT NULL,
+	ano int NOT NULL,
 	idRelatorio int references Relatorio(idRelatorio) NOT NULL UNIQUE,
-	FOREIGN KEY (idFatura, numero) references ItemFatura(idFatura, numero),
-	PRIMARY KEY (numero, idFatura)
+	FOREIGN KEY (ano,idFatura, numero) references ItemFatura(ano,idFatura, numero),
+	PRIMARY KEY (ano,idFatura,numero)
 )
 
 /*
