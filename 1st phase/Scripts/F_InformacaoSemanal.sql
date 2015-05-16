@@ -16,7 +16,7 @@ DECLARE @total DECIMAL
 SELECT @count = COUNT(idConsulta), @total = SUM(preco) FROM Consulta INNER JOIN Especialidade 
 		ON(Consulta.especialidadeConsulta = Especialidade.idEspecialidade) 
 WHERE data>CAST(GETDATE() AS DATE) AND data<CAST(DATEADD(d,7,GETDATE()) AS DATE)		
-INSERT INTO @InfoSTable(consultas,lucroPrevisto) values(@count,@total + 40 * @count)
+INSERT INTO @InfoSTable(consultas,lucroPrevisto) values(@count,@total + (SELECT montanteBase FROM Meta) * @count)
 RETURN
 END
 GO

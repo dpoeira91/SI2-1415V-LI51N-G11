@@ -182,7 +182,7 @@ create table Fatura
 	nif int NOT NULL,
 	montante decimal(10,2) NOT NULL DEFAULT dbo.ValorBaseConsulta(),
 	estado nvarchar(20) NOT NULL references EstadoFatura(estado),
-	PRIMARY KEY (idFatura)
+	PRIMARY KEY (ano,idFatura)
 )
 
 /*
@@ -192,6 +192,7 @@ create table Relatorio
 (
 	idRelatorio int PRIMARY KEY IDENTITY(1,1),
 	data datetime NOT NULL,
+	consulta int,
 	descricao nvarchar(2000) NOT NULL,
 )
 
@@ -201,19 +202,22 @@ create table Relatorio
 create table ItemFatura
 (
 	numero int NOT NULL,
-	idFatura int references Fatura(idFatura),
+	idFatura int NOT NULL,
+	ano int NOT NULL,
 	descricao nvarchar(1000) NOT NULL,
 	montante decimal(10,2) NOT NULL,
-	PRIMARY KEY (idFatura, numero)
+	FOREIGN KEY (ano,idFatura) REFERENCES Fatura(ano, idFatura),
+	PRIMARY KEY (ano, idFatura, numero)
 )
 
 create table ItemFaturaRelatorio
 (
 	numero int NOT NULL,
 	idFatura int NOT NULL,
+	ano int NOT NULL,
 	idRelatorio int references Relatorio(idRelatorio) NOT NULL UNIQUE,
-	FOREIGN KEY (idFatura, numero) references ItemFatura(idFatura, numero),
-	PRIMARY KEY (numero, idFatura)
+	FOREIGN KEY (ano,idFatura, numero) references ItemFatura(ano,idFatura, numero),
+	PRIMARY KEY (ano,idFatura,numero)
 )
 
 /*

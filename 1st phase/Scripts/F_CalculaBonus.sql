@@ -12,7 +12,7 @@ BEGIN
 	WHERE Nif = @nif AND temDesconto = 1
 	if(@bonus >= 0)
 	BEGIN
-		RETURN CAST((@bonus/100)/100 AS DECIMAL(3,2))
+		RETURN 1 - CAST((@bonus/100)AS DECIMAL(3,2))/100
 	END
 	RETURN 1
 END
