@@ -1,5 +1,7 @@
 use clinica
 
+INSERT INTO Meta(limiteListaEspera,montanteBase)values(10,40)
+
 INSERT INTO Pessoa(bi, nif, numeroSS, nome, ultimoNome, dataNascimento, nacionalidade, email)
 values(1, 1, 1111111, 'Ana', 'Sequeira', '1990-01-01', 'Portuguesa', '1111@isel.pt'),
 		(2, 2, 2222222, 'Diogo', 'Poeira', '1991-02-02', 'Portuguesa', '2222@isel.pt'),
@@ -62,6 +64,7 @@ INSERT INTO Consulta(motivo, data, pacienteConsulta, medicoConsulta, especialida
 values('inicial', '2015-02-11', 2, 11, 1),
 		('acompanhamento','2015-12-11', 1, 22, 1),
 		('inicial', '2015-02-11', 3, 11, 3),
+		('inicial', '2015-02-11', 3, 11, 3),
 		('inicial', '2015-02-11', 2, 33, 1);
 
 INSERT INTO Medicamento(principioActivo, nomeComercial, laboratorio, dose)
@@ -90,19 +93,21 @@ INSERT INTO MedicamentoPaciente(idMedicamento,idPaciente, posologia)
 
 INSERT INTO EstadoFatura(estado)
 values	('emitida'),
-		('paga');
+		('paga'),
+		('emProcessamento');
 		
 INSERT INTO Fatura(ano,data,morada,nome,nif,montante,estado)
 values(2015,'2015-03-11 11:11','aaa','Diogo',2,0,'emitida'),
-		(2015,'2015-03-11 11:12','aaa','Ana',1,0,'emitida'),
+		(2015,'2015-03-11 11:12','aaa','Ana',1,0,'paga'),
 		(2015,'2015-03-11 11:13','aaa','Susana',3,20,'emitida'),
 		(2015,'2015-03-11 11:13','aaa','Susana',3,30,'emitida'),
 		(2015,'2015-04-11 11:13','aaa','Susana',3,40,'emitida'),
 		(2015,'2015-01-11 11:13','aaa','Susana',3,50,'emitida'),
 		(2015,'2015-08-11 11:13','aaa','Susana',3,60,'emitida'),
 		(2015,'2015-03-12 11:13','aaa','Susana',3,70,'emitida'),
-		(2015,'2015-03-11 11:14','aaa','Ana',1,0,'emitida'),
-		(2015,'2015-03-11 11:15','aaa','Diogo',2,0,'emitida');
+		(2015,'2015-03-11 11:14','aaa','Ana',1,0,'paga'),
+		(2015,'2015-03-11 11:15','aaa','Diogo',2,0,'emitida'),
+		(2015,'2015-05-11 11:15','aaa','Ana',1,0,'paga');
 
 INSERT INTO Relatorio(data,descricao)
 values  ('2015-03-11 11:11','relatorio1'),

@@ -2,6 +2,14 @@ use clinica
 /*
  * Tabela que representa a entidade Pessoa
 */
+CREATE TABLE Meta
+(
+id int identity PRIMARY KEY,
+limiteListaEspera int ,
+montanteBase int
+)
+
+
 CREATE TABLE Pessoa
 (
 	bi INT NOT NULL,
@@ -89,6 +97,15 @@ create table Medico
 	numeroListadeEspera int NOT NULL,
 )
 
+create table ListaDeEspera
+(
+medico int not null references Medico(licencaMedica),
+paciente int references Paciente(NumeroBenefeciario),
+especialidade int references Especialidade(idEspecialidade),
+data date
+PRIMARY KEY(medico,paciente,especialidade,data)
+)
+
 create table MedicoEspecialidade
 (
 	idEspecialidade int references Especialidade(idEspecialidade) NOT NULL,
@@ -149,7 +166,7 @@ create table MedicamentoPaciente
 
 create table EstadoFatura
 (
-	estado nvarchar(10) NOT NULL PRIMARY KEY
+	estado nvarchar(20) NOT NULL PRIMARY KEY
 )
 
 /*
@@ -157,14 +174,14 @@ create table EstadoFatura
 */
 create table Fatura
 (
-	idFatura int NOT NULL IDENTITY(1,1),
+	idFatura int NOT NULL ,
 	ano int NOT NULL,
 	data datetime NOT NULL,
 	morada nvarchar(2000) NOT NULL,
 	nome nvarchar (1250) NOT NULL,
 	nif int NOT NULL,
-	montante decimal(10,2) NOT NULL DEFAULT 40.0, --???
-	estado nvarchar(10) NOT NULL references EstadoFatura(estado),
+	montante decimal(10,2) NOT NULL DEFAULT dbo.ValorBaseConsulta(),
+	estado nvarchar(20) NOT NULL references EstadoFatura(estado),
 	PRIMARY KEY (idFatura)
 )
 
@@ -246,46 +263,61 @@ create table RelatorioMensalFinanceiro
 
 --Tabelas do Historico de Pacientes
 
-
-/*
- * Tabela que representa a entidade Pessoa
-*/
 CREATE TABLE HistoricoPaciente
 (
-	bi INT NOT NULL,
+	numeroBenefeciario int PRIMARY KEY,
+	sistemaSaude nvarchar(200),
+	bonus int,
+
+	--atrubitos de Pessoa
+	bi INT,
 	nif INT ,
 	numeroSS INT,
 	nome nvarchar(1000),
 	ultimoNome nvarchar(250),
 	dataNascimento date ,
 	nacionalidade nvarchar(300),
-	email nvarchar(250),
-	
-	--atributos de morada assume se  que fica a morada com ordem 1
-	rua nvarchar(1000) ,
-	numero nvarchar(9) ,
-	codigoPostal nvarchar(8) ,
-	cidade nvarchar(300),
-	pais nvarchar(300),
-	
-	--atributos de telefone assume se  que fica o telefone com ordem 1
-	numeroTelefone nvarchar(15),
-	
-	--atrubitos de Paciente
-	numeroBenefeciario int PRIMARY KEY,
-	sistemaSaude nvarchar(200),
-	bonus int,
+	email nvarchar(250)
 )
 
-/*
- * Tabela que representa a entidade MedicamentoPaciente
-*/
+create table HistoricoMorada(
+	pessoa int references HistoricoPaciente(numeroBenefeciario),
+	ordem smallint,
+	rua nvarchar(1000),
+	numero nvarchar(9),
+	codigoPostal nvarchar(8),
+	cidade nvarchar(300),
+	pais nvarchar(300),
+	tipo int,
+	PRIMARY KEY(pessoa,ordem)
+)
+
+create table HistoricoTelefone
+(
+	pessoa int references HistoricoPaciente(numeroBenefeciario),
+	ordem int,
+	numero nvarchar(15),
+	tipo int,
+	PRIMARY KEY(pessoa, ordem)
+)
+
 create table HistoricoMedicamentoPaciente
 (
 	idMedicamento int,
 	idPaciente int references HistoricoPaciente(numeroBenefeciario) ,
 	posologia nvarchar(20),
 	PRIMARY KEY (idMedicamento, idPaciente)
+)
+
+create table HistoricoConsulta
+(
+	idConsulta int PRIMARY KEY,
+	motivo nvarchar(30),
+	data date,
+	dataRegisto datetime,
+	pacienteConsulta int references HistoricoPaciente(numeroBenefeciario),
+	medicoConsulta int,
+	especialidadeConsulta int
 )
 
 

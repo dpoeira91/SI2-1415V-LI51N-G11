@@ -1,0 +1,11 @@
+use clinica
+GO
+
+CREATE PROC RestartFaturaID 
+AS
+BEGIN
+	ALTER SEQUENCE FacturaID
+		RESTART WITH 1
+		INCREMENT BY 1
+	;
+END
