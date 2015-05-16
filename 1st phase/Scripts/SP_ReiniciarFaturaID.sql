@@ -1,0 +1,11 @@
+
+CREATE PROC ReiniciarFaturaID
+AS
+BEGIN
+	IF((SELECT MAX(ano) FROM Fatura) < Year(getDate()))
+	BEGIN
+		ALTER SEQUENCE FacturaID 
+			RESTART WITH 1
+			INCREMENT BY 1;
+	END
+END
