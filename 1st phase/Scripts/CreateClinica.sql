@@ -141,7 +141,7 @@ create table Posologia
 create table MedicamentoPaciente
 (
 	idMedicamento int,
-	idPaciente int references Paciente(pessoa) NOT NULL,
+	idPaciente int references Paciente(numeroBenefeciario) NOT NULL,
 	posologia nvarchar(20) NOT NULL, 
 	PRIMARY KEY (idMedicamento, idPaciente)
 )

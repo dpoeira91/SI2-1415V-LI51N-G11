@@ -12,7 +12,7 @@ values(1, 'Desc1'),
 		(4, 'Desc4');
 
 INSERT INTO Morada(ordem, rua, numero, codigoPostal, cidade, pais, tipo, pessoa)
-values(1, 'Alameda Sta Marta', '11', '2855', 'Corroios', 'Portugal', 1,1),
+values  (1, 'Alameda Sta Marta', '11', '2855', 'Corroios', 'Portugal', 1,1),
 		(2, 'Alameda Sao Joao', '12', '2855', 'Corroios', 'Portugal', 2,1),
 		(3, 'Alameda Sta Marta', '13', '2855', 'Corroios', 'Portugal', 3,1),
 		(1, 'Alameda Sta Marta', '11', '2855', 'Corroios', 'Portugal', 1,2),
@@ -24,10 +24,10 @@ values(1, 'Alameda Sta Marta', '11', '2855', 'Corroios', 'Portugal', 1,1),
 
 
 INSERT INTO Telefone(pessoa, ordem, numero, tipo)
-values(1, 1, '1', 4),
-		(2, 2, '2', 3),
-		(3, 3, '3', 3),
-		(1, 4, '4', 1);
+values  (1, 1, '0111111111', 4),
+		(2, 2, '0222222222', 3),
+		(3, 3, '0333333333', 3),
+		(1, 4, '0444444444', 1);
 
 INSERT INTO Paciente(pessoa, numeroBenefeciario, sistemaSaude)
 values(1, 1, 'aaa'),
@@ -65,10 +65,10 @@ values('inicial', '2015-02-11', 2, 11, 1),
 		('inicial', '2015-02-11', 2, 33, 1);
 
 INSERT INTO Medicamento(principioActivo, nomeComercial, laboratorio, dose)
-values('1','1','1',1.0),
-		('2','2','2',2.0),
-		('3','3','3',3.0),
-		('4','4','4',4.0);
+values  ('PA1','medicamento1','Lab1',1.0),
+		('PA2','medicamento2','Lab2',2.0),
+		('PA3','medicamento3','Lab3',3.0),
+		('PA4','medicamento4','Lab4',4.0);
 
 INSERT INTO Posologia(posologia)
 values('3em3h'),
@@ -81,7 +81,8 @@ values('3em3h'),
 		('emJejum');
 
 INSERT INTO MedicamentoPaciente(idMedicamento,idPaciente, posologia)
- values(1,1,'3em3h'),
+ values	(4,1,'aoDeitar'),
+		(1,1,'3em3h'),
 		(2,2,'3em3h'),
 		(3,3,'3em3h'),
 		(3,1,'3em3h'),
@@ -104,16 +105,16 @@ values(2015,'2015-03-11 11:11','aaa','Diogo',2,0,'emitida'),
 		(2015,'2015-03-11 11:15','aaa','Diogo',2,0,'emitida');
 
 INSERT INTO Relatorio(data,descricao)
-values('2015-03-11 11:11','aaaa'),
-		('2015-03-11 11:12','aaaa'),
-		('2015-03-11 11:13','aaaa'),
-		('2015-03-11 11:14','aaaa');
+values  ('2015-03-11 11:11','relatorio1'),
+		('2015-03-11 11:12','relatorio2'),
+		('2015-03-11 11:13','relatorio3'),
+		('2015-03-11 11:14','relatorio3');
 
 INSERT INTO ItemFatura(numero,idFatura,descricao,montante)
-values(1,1,'1',1),
-		(1,2,'2',2),
-		(1,3,'3',3),
-		(1,4,'4',4);
+values  (1,1,'desc1',1),
+		(1,2,'desc2',2),
+		(1,3,'desc3',3),
+		(1,4,'desc4',4);
 
 INSERT INTO ItemFaturaRelatorio(numero,idFatura,idRelatorio)
 values(1,1,1),
@@ -122,16 +123,16 @@ values(1,1,1),
 		(1,4,4);
 
 INSERT INTO RelatorioMedico(idRelatorio,estadoClinico,prescricoes)
-values(1,'1','1'),
-		(2,'2',NULL);
+values  (1,'estadoClinico1','1'),
+		(2,'estadoClinico2',NULL);
 
 INSERT INTO TipoExame(nome,preco)
-values('1',1.0),
-		('2',2.0);
+values  ('tipoExame1',1.0),
+		('tipoExame2',2.0);
 
 INSERT INTO RelatorioExame(idRelatorio,idEquipamento,notas,resultado,tipo)
-values(2,NULL,'aaaa','<ok></ok>',1),
-		(3,NULL,'bbbb','<ok></ok>',2);
+values  (2,NULL,'notas1','<ok></ok>',1),
+		(3,NULL,'notas2','<ok></ok>',2);
 
 INSERT INTO RelatorioMensalFinanceiro(ano, mes,relatorio)
 values(2015,3,'<ok></ok>'),
