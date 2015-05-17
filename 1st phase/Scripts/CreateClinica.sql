@@ -13,7 +13,7 @@ montanteBase int
 CREATE TABLE Pessoa
 (
 	bi INT NOT NULL,
-	nif INT NOT NULL UNIQUE,
+	nif INT NOT NULL,
 	numeroSS INT NOT NULL UNIQUE,
 	nome nvarchar(1000) NOT NULL,
 	ultimoNome nvarchar(250) NOT NULL,
@@ -174,9 +174,9 @@ create table EstadoFatura
 */
 create table Fatura
 (
-	idFatura int NOT NULL ,
-	ano int NOT NULL,
-	data datetime NOT NULL,
+	idFatura int NOT NULL,
+	ano int NOT NULL DEFAULT Year(getDate()),
+	data datetime NOT NULL DEFAULT getDate(),
 	morada nvarchar(2000) NOT NULL,
 	nome nvarchar (1250) NOT NULL,
 	nif int NOT NULL,
