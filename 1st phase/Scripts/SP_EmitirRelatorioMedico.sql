@@ -15,8 +15,13 @@ BEGIN
 		INSERT INTO RelatorioMedico(idRelatorio,estadoClinico,prescricoes)
 		values(@idRelatorio,@estadoClinico,@prescrições)
 		COMMIT
+		RETURN
 	END
 	ELSE
 		PRINT('Não foi encontrada a consulta referida')
 END
 GO
+
+DECLARE @idRelatorio int
+EXEC EmitirRelatorioMedico 1,'2015-02-11','ben-u-ron','bom','dores', @idRelatorio
+PRINT ('wazaaaa '+cast(@idRelatorio AS nvarchar(10)))
