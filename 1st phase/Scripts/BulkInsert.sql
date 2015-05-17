@@ -3,12 +3,12 @@ use clinica
 INSERT INTO Meta(limiteListaEspera,montanteBase)values(10,40)
 
 INSERT INTO Pessoa(bi, nif, numeroSS, nome, ultimoNome, dataNascimento, nacionalidade, email)
-values(1, 1, 1111111, 'Ana', 'Sequeira', '1990-01-01', 'Portuguesa', '1111@isel.pt'),
+values  (1, 1, 1111111, 'Ana', 'Sequeira', '1990-01-01', 'Portuguesa', '1111@isel.pt'),
 		(2, 2, 2222222, 'Diogo', 'Poeira', '1991-02-02', 'Portuguesa', '2222@isel.pt'),
 		(3, 3, 3333333, 'Susana', 'Cardoso', '1990-03-03', 'Portuguesa', '3333@isel.pt');
 
 INSERT INTO TipoContacto(tipo, descricao)
-values(1, 'Desc1'),
+values  (1, 'Desc1'),
 		(2, 'Desc2'),
 		(3, 'Desc3'),
 		(4, 'Desc4');
@@ -32,17 +32,17 @@ values  (1, 1, '0111111111', 4),
 		(1, 4, '0444444444', 1);
 
 INSERT INTO Paciente(pessoa, numeroBenefeciario, sistemaSaude)
-values(1, 1, 'aaa'),
+values  (1, 1, 'aaa'),
 		(2, 2, 'bbb'),
 		(3, 3, 'aaa');
 
 INSERT INTO Especialidade(nome, preco)
-values('Oftm', 50),
+values  ('Oftm', 50),
 		('Card', 100),
 		('US', 12);
 
 INSERT INTO Medico(pessoa, licencaMedica, dataLicenca, numeroPacientesDiario, numeroListadeEspera)
-values(1, 11, '2015-05-14', 12, 10),
+values  (1, 11, '2015-05-14', 12, 10),
 		(2, 22, '2015-05-12', 5, 1),
 		(3, 33, '2015-05-3', 3, 0);
 
