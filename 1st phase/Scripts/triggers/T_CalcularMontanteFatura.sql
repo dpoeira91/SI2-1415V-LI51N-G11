@@ -1,3 +1,5 @@
+USE clinica
+
 if OBJECT_ID('InsertMontante') is not null 
 DROP TRIGGER InsertMontante
 
@@ -14,10 +16,10 @@ ON ItemFatura
 AFTER INSERT
 AS
 	DECLARE @nif int
-	SELECT @nif = nif FROM inserted INNER JOIN Fatura ON(Fatura.idFatura = inserted.idFatura)
+	SELECT @nif = nif FROM inserted INNER JOIN Fatura ON(Fatura.idFatura = inserted.idFatura AND Fatura.ano = inserted.ano)
 	UPDATE Fatura
 	SET montante += (SELECT montante FROM inserted 
-						WHERE Fatura.idFatura = inserted.idFatura) * (dbo.CalculaBonus( @nif ))
+						WHERE Fatura.idFatura = inserted.idFatura AND Fatura.ano = inserted.ano)
 
 
 GO
@@ -27,10 +29,10 @@ ON ItemFatura
 AFTER DELETE
 AS
 	DECLARE @nif int
-	SELECT @nif = nif FROM deleted INNER JOIN Fatura ON(Fatura.idFatura = deleted.idFatura)
+	SELECT @nif = nif FROM deleted INNER JOIN Fatura ON(Fatura.idFatura = deleted.idFatura AND Fatura.ano = deleted.ano)
 	UPDATE Fatura 
 	SET montante -= (SELECT montante FROM deleted 
-						WHERE Fatura.idFatura = deleted.idFatura) * (dbo.CalculaBonus( @nif ))
+						WHERE Fatura.idFatura = deleted.idFatura AND Fatura.ano = deleted.ano)
 
 GO
 
@@ -42,7 +44,7 @@ AS
 	SELECT @nif = nif FROM inserted INNER JOIN Fatura ON(Fatura.idFatura = inserted.idFatura)
 	UPDATE Fatura 
 	SET montante += ((SELECT montante FROM inserted 
-						WHERE Fatura.idFatura = inserted.idFatura) - (SELECT montante FROM deleted 
-						WHERE Fatura.idFatura = deleted.idFatura))  * (dbo.CalculaBonus( @nif ))
+						WHERE Fatura.idFatura = inserted.idFatura AND Fatura.ano = inserted.ano) - (SELECT montante FROM deleted 
+						WHERE Fatura.idFatura = deleted.idFatura AND Fatura.ano = deleted.ano))
 
 GO

@@ -103,7 +103,7 @@ medico int not null references Medico(licencaMedica),
 paciente int references Paciente(NumeroBenefeciario),
 especialidade int references Especialidade(idEspecialidade),
 data date
-PRIMARY KEY(medico,paciente,especialidade,data)
+PRIMARY KEY(medico,paciente,data)
 )
 
 create table MedicoEspecialidade
@@ -131,6 +131,7 @@ create table Consulta
 	pacienteConsulta int NOT NULL references Paciente(numeroBenefeciario),
 	medicoConsulta int NOT NULL,
 	especialidadeConsulta int NOT NULL,
+	CONSTRAINT ak_c1 UNIQUE(data,medicoConsulta,pacienteConsulta,especialidadeConsulta),
 	FOREIGN KEY (medicoConsulta, especialidadeConsulta) references MedicoEspecialidade(licenca, idEspecialidade)-- GARANTE 1.
 )
 
@@ -203,7 +204,7 @@ create table ItemFatura
 (
 	numero int NOT NULL,
 	idFatura int NOT NULL,
-	ano int NOT NULL,
+	ano int NOT NULL DEFAULT Year(getDate()),
 	descricao nvarchar(1000) NOT NULL,
 	montante decimal(10,2) NOT NULL,
 	FOREIGN KEY (ano,idFatura) REFERENCES Fatura(ano, idFatura),

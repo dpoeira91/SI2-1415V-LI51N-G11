@@ -7,7 +7,6 @@ CREATE PROC InserirMedico
 @pessoa int, @licencaMedica int, @dataLicenca date, @numeroPacientesDiario int, @numeroListadeEspera int, @idEspc int
 AS
 BEGIN
-	print(dbo.VerificarPessoaBi(@pessoa))
 	IF(dbo.VerificarPessoaBi(@pessoa) != 1)
 	BEGIN
 		PRINT('Não é possivel inserir o Medico!') -- RAISEERROR
@@ -27,4 +26,3 @@ BEGIN
 END
 
 -- EXEC InserirMedico 4, 4, '2015-02-15', 12, 10, 2
--- EXEC InserirPaciente 5555555, 5, 'medis'

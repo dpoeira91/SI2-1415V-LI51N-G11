@@ -24,4 +24,4 @@ BEGIN CATCH
 	THROW 51000, @message, @state;
 END CATCH
 
--- EXEC UpdateMedicamentoDoPaciente 2, 6, 'manha'
+-- EXEC UpdateMedicamentoDoPaciente 1, 1, 'manha'

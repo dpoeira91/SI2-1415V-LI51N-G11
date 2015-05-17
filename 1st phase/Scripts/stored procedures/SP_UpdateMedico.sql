@@ -15,3 +15,8 @@ BEGIN
 	WHERE 
 		licencaMedica = @licenca
 END
+
+---- TESTES ----
+/*
+EXEC UpdateMedico '11','1234-01-01',2,1
+*/

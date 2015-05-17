@@ -1,5 +1,5 @@
 if OBJECT_ID('MedicoNotPaciente') is not null 
-DROP FUNCTION MarcarConsulta
+DROP FUNCTION MedicoNotPaciente
 
 GO
 ---- VERIFICAR QUE MÉDICO NÃO É O PACIENTE ----

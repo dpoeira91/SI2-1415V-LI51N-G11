@@ -1,14 +1,18 @@
 use clinica
 if(OBJECT_ID('ListaConsultasDia')!=null)
-	DROP FUNCTION ListaConsultasDia
+	DROP PROC ListaConsultasDia
 GO
-CREATE FUNCTION ListaConsultasDia(@medico int, @dia date)
-RETURNS TABLE
-AS RETURN SELECT nome , motivo 
+CREATE PROC ListaConsultasDia @medico int, @dia date
+AS
+BEGIN
+SELECT nome , motivo 
 FROM Consulta INNER JOIN Paciente 
 				ON (Consulta.pacienteConsulta = Paciente.numeroBenefeciario)
 	 INNER JOIN Pessoa ON (Paciente.pessoa = Pessoa.bi)
 	 WHERE medicoConsulta = @medico AND data = @dia
+END
 GO
 --TESTES
-SELECT * FROM ListaConsultasDia(11,'2015-02-11')
+/*
+EXEC ListaConsultasDia 22,'2015-05-13'
+*/

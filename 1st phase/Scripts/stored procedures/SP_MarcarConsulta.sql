@@ -20,34 +20,40 @@ BEGIN
 		SET @err = 1
 		RETURN
 	END
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+	BEGIN TRAN
 	IF(dbo.MedicoDisponivel(@medico,@data) = 1)
 	BEGIN
 		INSERT INTO Consulta(motivo, data, dataRegisto, pacienteConsulta, medicoConsulta, especialidadeConsulta)
 			values(@motivo, @data, GETDATE(), @paciente, @medico, @especialidade)
 		PRINT('A consulta foi marcada com sucesso!')
 		 SET @err = 0
-		RETURN
 	END
 	ELSE
 	BEGIN
+		PRINT (dbo.ListaDeEsperaCheia(@medico,@data))
 		IF dbo.ListaDeEsperaCheia(@medico,@data) = 0
 		BEGIN
 			INSERT INTO ListaDeEspera(medico,paciente,especialidade, data)
 				values(@medico,@paciente,@especialidade,@data)
 			PRINT('O médico tem o dia cheio, foi adicionado á lista de espera!')
 			SET @err = 3
-			RETURN 
 		END
 	END
-	PRINT('Não foi possivel marcar a consulta!')
-	SET @err = 4
-	RETURN
+	COMMIT
+	IF(@err is null)
+	BEGIN
+		PRINT('Não foi possivel marcar a consulta!')
+		SET @err = 4
+	END
 END
 
 GO
 
 ---- TESTES ----
+/*
 DECLARE @err int
 EXEC MarcarConsulta 3, 22, 1, '2015-05-13', 'inicial',@err -- x
 EXEC MarcarConsulta 3, 33, 1, '2015-05-13', 'inicial',@err -- x
 EXEC MarcarConsulta 1, 22, 1, '2015-05-13', 'inicial',@err -- v
+*/

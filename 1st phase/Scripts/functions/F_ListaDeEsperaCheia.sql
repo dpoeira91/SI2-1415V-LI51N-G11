@@ -8,7 +8,7 @@ RETURNS BIT
 AS
 BEGIN
 	IF ((SELECT COUNT(medico) FROM ListaDeEspera WHERE medico = @medico AND data = @data) < (SELECT limiteListaEspera FROM Meta))
-		RETURN 1
-	RETURN 0
+		RETURN 0
+	RETURN 1
 END
 GO

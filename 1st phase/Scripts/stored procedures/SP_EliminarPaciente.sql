@@ -8,6 +8,8 @@ GO
 CREATE PROC EliminarPaciente @paciente int
 AS
 BEGIN
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+	BEGIN TRAN
 	--se o paciente tiver dividas nao pode ser apagado!!
 	IF(dbo.FaturasEmDivida(@paciente) > 0)
 	BEGIN
@@ -55,7 +57,7 @@ BEGIN
 		WHERE numeroBenefeciario = @paciente
 
 		--Ver se o paciente tambem é medico, se não for apagar do resto das tabelas
-		if(dbo.VerificarMedico(@bi) = 0)
+		if(dbo.VerificarMedico(@bi) IS NULL)
 			BEGIN
 				DELETE FROM Morada
 				WHERE pessoa = @bi
@@ -69,9 +71,11 @@ BEGIN
 
 		PRINT('Paciente removido com sucesso!')
 	END
+	COMMIT
 END
 GO
-
+--- TESTES ---
+/*
 EXEC EliminarPaciente 1
 EXEC EliminarPaciente 2
 EXEC EliminarPaciente 3
@@ -82,5 +86,6 @@ SELECT * FROM HistoricoConsulta
 SELECT * FROM HistoricoMorada
 SELECT * FROM HistoricoTelefone
 
-select * from Paciente
-where numeroBenefeciario = 1
+select * from Paciente INNER JOIN Pessoa ON (pessoa = bi)
+where numeroBenefeciario = 2
+*/

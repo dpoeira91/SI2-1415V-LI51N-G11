@@ -19,3 +19,8 @@ BEGIN
 	WHERE 
 		Pessoa.bi = @bi 
 END
+
+--- TESTES ----
+/*
+EXEC UpdatePessoa 1,1,'Margarida','Sequeira','Portuguesa','1990-09-24','ola'
+*/

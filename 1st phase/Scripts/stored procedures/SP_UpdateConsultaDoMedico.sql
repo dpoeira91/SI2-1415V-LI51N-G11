@@ -25,4 +25,4 @@ BEGIN CATCH
 	THROW 51000, @message, @state;
 END CATCH
 
--- EXEC UpdateConsultaDoMedico 'inicial', '2015-05-16', 2,  33, 2, 4 
+-- EXEC UpdateConsultaDoMedico 'inicial', '2015-05-16', 3,  33, 2, 4 

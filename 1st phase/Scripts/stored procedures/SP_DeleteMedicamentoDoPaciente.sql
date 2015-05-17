@@ -12,4 +12,4 @@ BEGIN
 		idPaciente = @numBeneficiarioPaciente AND idMedicamento = @idMedicamento
 END
 
--- EXeC DeleteMedicamentoDoPaciente 2, 2
+-- EXeC DeleteMedicamentoDoPaciente 3, 3

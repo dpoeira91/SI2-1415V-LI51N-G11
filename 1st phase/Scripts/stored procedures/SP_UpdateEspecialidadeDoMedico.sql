@@ -14,4 +14,4 @@ BEGIN
 		licenca = @licenca
 END
 
--- EXeC UpdateEspecialidadeDoMedico 44, 1
+-- EXeC UpdateEspecialidadeDoMedico 4, 1
