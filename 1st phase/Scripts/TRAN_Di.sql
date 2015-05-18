@@ -12,13 +12,14 @@ SET @motivo =  'inicial'
 			BEGIN
 				SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
 				BEGIN TRAN
+				UPDATE Consulta SET medicoConsulta = medicoConsulta
+				WHERE Consulta.idConsulta = @especialidade AND Consulta.data = @data
 				SELECT Medico.pessoa, Medico.licencaMedica, Medico.dataLicenca
 				FROM Medico INNER JOIN Consulta ON (licencaMedica = medicoConsulta)
 							INNER JOIN MedicoEspecialidade ON (licenca = licencaMedica)
 				WHERE idEspecialidade = @especialidade AND 
 					  data = @data AND
 					  dbo.MedicoDisponivel(Medico.licencaMedica,@data) = 1
-				UPDATE Consulta SET medicoConsulta = medicoConsulta
 				WAITFOR DELAY '00:00:15'
 				-- PACIENTE ESCOLHE
 				EXEC MarcarConsulta @paciente,22,@especialidade,@data,@motivo,@err

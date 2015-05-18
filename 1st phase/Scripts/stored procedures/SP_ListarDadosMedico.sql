@@ -1,3 +1,4 @@
+use clinica
 if OBJECT_ID('ListarDadosMedico') is not null 
 DROP PROC ListarDadosMedico
 
