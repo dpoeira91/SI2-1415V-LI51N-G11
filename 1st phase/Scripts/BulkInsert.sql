@@ -13,18 +13,6 @@ values  (1, 'Desc1'),
 		(3, 'Desc3'),
 		(4, 'Desc4');
 
-INSERT INTO Morada(ordem, rua, numero, codigoPostal, cidade, pais, tipo, pessoa)
-values  (1, 'Alameda Sta Marta', '11', '2855', 'Corroios', 'Portugal', 1,1),
-		(2, 'Alameda Sao Joao', '12', '2855', 'Corroios', 'Portugal', 2,1),
-		(3, 'Alameda Sta Marta', '13', '2855', 'Corroios', 'Portugal', 3,1),
-		(1, 'Alameda Sta Marta', '11', '2855', 'Corroios', 'Portugal', 1,2),
-		(2, 'Alameda Sao Joao', '12', '2855', 'Corroios', 'Portugal', 2,2),
-		(3, 'Alameda Sta Marta', '13', '2855', 'Corroios', 'Portugal', 3,2),
-		(1, 'Alameda Sta Marta', '11', '2855', 'Corroios', 'Portugal', 1,3),
-		(2, 'Alameda Sao Joao', '12', '2855', 'Corroios', 'Portugal', 2,3),
-		(3, 'Alameda Sta Marta', '13', '2855', 'Corroios', 'Portugal', 3,3);
-
-
 INSERT INTO Telefone(pessoa, ordem, numero, tipo)
 values  (1, 1, '0111111111', 4),
 		(2, 2, '0222222222', 3),

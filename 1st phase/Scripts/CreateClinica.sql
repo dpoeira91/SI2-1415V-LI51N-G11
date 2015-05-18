@@ -40,11 +40,7 @@ create table Morada
 (
 	pessoa int references Pessoa(bi),
 	ordem smallint,
-	rua nvarchar(1000) NOT NULL,
-	numero nvarchar(9) NOT NULL,
-	codigoPostal nvarchar(8) NOT NULL,
-	cidade nvarchar(300) NOT NULL,
-	pais nvarchar(300) NOT NULL,
+	idCtt int,
 	tipo int references TipoContacto(Tipo) NOT NULL,
 	PRIMARY KEY(pessoa,ordem)
 )
