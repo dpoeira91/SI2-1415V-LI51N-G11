@@ -1,6 +1,6 @@
 use clinica
 GO
-
+IF OBJECT_ID('PassarFatura') is not null
 DROP PROC PassarFatura 
 GO
 
@@ -15,7 +15,7 @@ BEGIN
 		FROM Morada
 		WHERE pessoa = (SELECT bi FROM Pessoa WHERE nif = @nif AND nome = @nome) AND ordem =1
 
-		INSERT INTO Fatura(idFatura,nif, morada, estado) values(NEXT VALUE FOR FacturaID,@nome,@nif,@morada,'emProcessamento')
+		INSERT INTO Fatura(idFatura,nome,nif, morada, estado) values(NEXT VALUE FOR FacturaID,@nome,@nif,@morada,'emProcessamento')
 		PRINT ('Fatura criada com sucesso!')
 	END
 	ELSE
@@ -23,3 +23,8 @@ BEGIN
 		PRINT ('Fatura não foi criada com sucesso, verifique os dados do paciente!')
 	END
 END
+
+--- TESTES ---
+/*
+EXEC PassarFatura 'Ana', 1
+*/
