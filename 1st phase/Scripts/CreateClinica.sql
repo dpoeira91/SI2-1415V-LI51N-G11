@@ -93,8 +93,7 @@ create table Medico
 	pessoa int references Pessoa(bi) UNIQUE NOT NULL,
 	licencaMedica int NOT NULL PRIMARY KEY,
 	dataLicenca date NOT NULL,
-	numeroPacientesDiario int NOT NULL,
-	numeroListadeEspera int NOT NULL,
+	numeroPacientesDiario int NOT NULL
 )
 
 create table ListaDeEspera
@@ -103,7 +102,7 @@ medico int not null references Medico(licencaMedica),
 paciente int references Paciente(NumeroBenefeciario),
 especialidade int references Especialidade(idEspecialidade),
 data date
-PRIMARY KEY(medico,paciente,data)
+PRIMARY KEY(medico,paciente,especialidade,data)
 )
 
 create table MedicoEspecialidade

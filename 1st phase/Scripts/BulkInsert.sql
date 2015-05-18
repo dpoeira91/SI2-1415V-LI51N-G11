@@ -41,10 +41,10 @@ values  ('Oftm', 50),
 		('Card', 100),
 		('US', 12);
 
-INSERT INTO Medico(pessoa, licencaMedica, dataLicenca, numeroPacientesDiario, numeroListadeEspera)
-values  (1, 11, '2015-05-14', 12, 10),
-		(2, 22, '2015-05-12', 5, 1),
-		(3, 33, '2015-05-3', 3, 0);
+INSERT INTO Medico(pessoa, licencaMedica, dataLicenca, numeroPacientesDiario)
+values  (1, 11, '2015-05-14', 12),
+		(2, 22, '2015-05-12', 5),
+		(3, 33, '2015-05-3', 3);
 
 INSERT INTO MedicoEspecialidade(idEspecialidade, licenca)
 values(1, 11),
@@ -64,7 +64,7 @@ INSERT INTO Consulta(motivo, data, pacienteConsulta, medicoConsulta, especialida
 values('inicial', '2015-02-11', 2, 11, 1),
 		('acompanhamento','2015-12-11', 1, 22, 1),
 		('inicial', '2015-02-11', 3, 11, 3),
-		('inicial', '2015-02-11', 3, 11, 3),
+		('inicial', '2015-02-11', 3, 11, 1),
 		('inicial', '2015-02-11', 2, 33, 1);
 
 INSERT INTO Medicamento(principioActivo, nomeComercial, laboratorio, dose)
@@ -96,18 +96,18 @@ values	('emitida'),
 		('paga'),
 		('emProcessamento');
 		
-INSERT INTO Fatura(ano,data,morada,nome,nif,montante,estado)
-values(2015,'2015-03-11 11:11','aaa','Diogo',2,0,'emitida'),
-		(2015,'2015-03-11 11:12','aaa','Ana',1,0,'paga'),
-		(2015,'2015-03-11 11:13','aaa','Susana',3,20,'emitida'),
-		(2015,'2015-03-11 11:13','aaa','Susana',3,30,'emitida'),
-		(2015,'2015-04-11 11:13','aaa','Susana',3,40,'emitida'),
-		(2015,'2015-01-11 11:13','aaa','Susana',3,50,'emitida'),
-		(2015,'2015-08-11 11:13','aaa','Susana',3,60,'emitida'),
-		(2015,'2015-03-12 11:13','aaa','Susana',3,70,'emitida'),
-		(2015,'2015-03-11 11:14','aaa','Ana',1,0,'paga'),
-		(2015,'2015-03-11 11:15','aaa','Diogo',2,0,'emitida'),
-		(2015,'2015-05-11 11:15','aaa','Ana',1,0,'paga');
+INSERT INTO Fatura(idFatura,ano,data,morada,nome,nif,montante,estado)
+values(NEXT VALUE FOR FacturaID,2015,'2015-03-11 11:11','aaa','Diogo',2,0,'emitida'),
+		(NEXT VALUE FOR FacturaID,2015,'2015-03-11 11:12','aaa','Ana',1,0,'paga'),
+		(NEXT VALUE FOR FacturaID,2015,'2015-03-11 11:13','aaa','Susana',3,20,'emitida'),
+		(NEXT VALUE FOR FacturaID,2015,'2015-03-11 11:13','aaa','Susana',3,30,'emitida'),
+		(NEXT VALUE FOR FacturaID,2015,'2015-04-11 11:13','aaa','Susana',3,40,'emitida'),
+		(NEXT VALUE FOR FacturaID,2015,'2015-01-11 11:13','aaa','Susana',3,50,'emitida'),
+		(NEXT VALUE FOR FacturaID,2015,'2015-08-11 11:13','aaa','Susana',3,60,'emitida'),
+		(NEXT VALUE FOR FacturaID,2015,'2015-03-12 11:13','aaa','Susana',3,70,'emitida'),
+		(NEXT VALUE FOR FacturaID,2015,'2015-03-11 11:14','aaa','Ana',1,0,'paga'),
+		(NEXT VALUE FOR FacturaID,2015,'2015-03-11 11:15','aaa','Diogo',2,0,'emitida'),
+		(NEXT VALUE FOR FacturaID,2015,'2015-05-11 11:15','aaa','Ana',1,0,'paga');
 
 INSERT INTO Relatorio(data,descricao)
 values  ('2015-03-11 11:11','relatorio1'),

@@ -1,3 +1,4 @@
+use clinica
 if OBJECT_ID('UpdateMedico') is not null 
 DROP PROC UpdateMedico
 
@@ -10,8 +11,7 @@ BEGIN
 	UPDATE Medico
 	SET 
 		dataLicenca = @dataLicenca,
-		numeroPacientesDiario = @numPacientesDiario,
-		numeroListadeEspera = @numPacientesFilaEspera
+		numeroPacientesDiario = @numPacientesDiario
 	WHERE 
 		licencaMedica = @licenca
 END
