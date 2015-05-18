@@ -243,7 +243,7 @@ create table TipoExame
 )
 
 /*
- * Tabela que representa a entidade RelatorioMedico
+ * Tabela que representa a entidade Exame
 */
 create table RelatorioExame
 (
